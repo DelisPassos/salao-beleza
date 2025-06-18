@@ -1,3 +1,3 @@
-// resources/js/app.js
-import 'bootstrap'; // Importa o JS do Bootstrap
-import 'bootstrap-icons/font/bootstrap-icons.css'; // Ícones do Bootstrap
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import '../css/app.css';
