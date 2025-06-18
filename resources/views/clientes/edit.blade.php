@@ -1,45 +1,37 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="h4 fw-semibold text-dark">
-            Editar Cliente
-        </h2>
-    </x-slot>
+    <x-header :title="'Editar Cliente'" />
 
-    <div class="py-5">
+    <div class="py-5 bg-black text-white">
         <div class="container">
-            <div class="card shadow-sm">
+            <div class="card bg-dark bg-opacity-75 text-white shadow-lg border-0">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('clientes.update', $cliente) }}">
-                        @csrf
+                    <x-form :action="route('clientes.update', $cliente)" :cancelRoute="route('clientes.index')">
                         @method('PUT')
 
-                        <div class="mb-3">
-                            <label class="form-label">Nome</label>
-                            <input type="text" name="nome" class="form-control"
-                                   value="{{ old('nome', $cliente->nome) }}" required>
-                        </div>
+                        <x-input-with-icon
+                            id="nome"
+                            name="nome"
+                            icon="person"
+                            :value="old('nome', $cliente->nome)"
+                            :error="$errors->first('nome')"
+                        />
 
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control"
-                                   value="{{ old('email', $cliente->email) }}">
-                        </div>
+                        <x-input-with-icon
+                            id="email"
+                            name="email"
+                            icon="envelope"
+                            :value="old('email', $cliente->email)"
+                            :error="$errors->first('email')"
+                        />
 
-                        <div class="mb-4">
-                            <label class="form-label">Telefone</label>
-                            <input type="text" name="telefone" class="form-control"
-                                   value="{{ old('telefone', $cliente->telefone) }}">
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ route('clientes.index') }}" class="btn btn-secondary">
-                                Cancelar
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                Salvar Alterações
-                            </button>
-                        </div>
-                    </form>
+                        <x-input-with-icon
+                            id="telefone"
+                            name="telefone"
+                            icon="telephone"
+                            :value="old('telefone', $cliente->telefone)"
+                            :error="$errors->first('telefone')"
+                        />
+                    </x-form>
                 </div>
             </div>
         </div>

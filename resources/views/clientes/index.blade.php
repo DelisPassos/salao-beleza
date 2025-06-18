@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="h4 fw-semibold text-dark">
-            Lista de Clientes
-        </h2>
-    </x-slot>
+    <x-header title="Lista de Clientes" />
 
     <div class="py-5 bg-black text-white">
         <div class="container">
@@ -11,9 +7,7 @@
                 <div class="card-body">
 
                     @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
+                        <x-auth-session-status :status="session('success')" class="mb-4" />
                     @endif
 
                     <a href="{{ route('clientes.create') }}" class="btn btn-sm btn-outline-warning mb-3">
@@ -38,19 +32,24 @@
                                         <td>{{ $cliente->telefone }}</td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center gap-2">
-                                                <a href="{{ route('clientes.edit', $cliente) }}" class="btn btn-sm btn-outline-warning" title="Editar">
-                                                    <i class="bi bi-pencil-square"></i>
+                                                <!-- Botão Editar -->
+                                                <a href="{{ route('clientes.edit', $cliente) }}">
+                                                    <x-edit-button>Editar</x-edit-button>
                                                 </a>
 
-                                                <form action="{{ route('clientes.destroy', $cliente) }}" method="POST"
-                                                    onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-warning" title="Excluir">
-                                                        <i class="bi bi-trash-fill"></i>
-                                                    </button>
-                                                </form>
+                                                <!-- Botão para abrir o modal -->
+                                                <x-delete-button data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $cliente->id }}">
+                                                    EXCLUIR
+                                                </x-delete-button>
                                             </div>
+
+                                            <!-- Modal de Confirmação -->
+                                            <x-confirm-delete 
+                                                id="modal-delete-{{ $cliente->id }}"
+                                                route="{{ route('clientes.destroy', $cliente) }}"
+                                                :item="$cliente->nome"
+                                            />
+
                                         </td>
                                     </tr>
                                 @empty
