@@ -53,7 +53,7 @@ npm run build
 composer run dev 
 
 # Copiar arquivo de ambiente e gerar chave da aplicação
-cp .env.example .env
+copy .env.example .env
 php artisan key:generate
 
 # Criar tabelas no banco de dados
