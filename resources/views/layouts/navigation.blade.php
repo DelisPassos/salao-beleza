@@ -1,8 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-black border-bottom border-warning">
   <div class="container">
-    <a class="navbar-brand text-warning" href="{{ route('dashboard') }}">
-      <img src="{{ asset('logo.png') }}" alt="Logo" style="height: 40px;">
-    </a>
+    <x-application-logo private/>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

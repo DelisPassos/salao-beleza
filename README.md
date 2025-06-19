@@ -4,60 +4,61 @@
   </a>
 </p>
 
-<h2 align="center">Sistema de Agendamento para Salão de Beleza</h2>
+<h2 align="center">Sistema de Gestão para Salão de Beleza</h2>
 
 <p align="center">
-  Projeto desenvolvido com Laravel, usando MySQL via XAMPP, com foco em agendamentos e controle de serviços e clientes.
+  Projeto desenvolvido em Laravel para controle interno de atendimentos, clientes e serviços em salões de beleza.
 </p>
 
 ---
 
-## Tecnologias utilizadas
+## 🛠️ Tecnologias Utilizadas
 
+- PHP 8.1+
 - Laravel 10+
-- PHP 8+
-- Composer
-- MySQL (XAMPP)
-- Blade (ou Vue, se implementado)
-- Vite (via npm)
+- MySQL (via XAMPP)
+- Blade Components
+- Bootstrap 5.3 (via Vite e npm)
+- Vite (build frontend)
+- Bootstrap Icons
 - HTML/CSS/JS
 
 ---
 
-## Como instalar e executar o projeto localmente
+## 📋 Requisitos para Rodar Localmente
 
-### Requisitos
-
-- PHP ≥ 8.1
+- PHP ≥ 8.1 (comextensão OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, JSON)
 - Composer
-- MySQL (recomendado: XAMPP)
 - Node.js e npm
+- MySQL ou MariaDB
+- XAMPP (opcional, mas recomendado para desenvolvimento local)
 
 ---
 
-### Etapas de instalação
+## 🚀 Como Instalar e Executar
 
 ```bash
-# Clone o repositório
+# 1. Clonar o repositório
 git clone https://github.com/seu-usuario/salao-beleza.git
 cd salao-beleza
 
-# Instalar dependências PHP
+# 2. Instalar as dependências PHP
 composer install
 
-# Instalar dependências JS (para Vite)
+# 3. Instalar as dependências do frontend (Bootstrap, Vite, etc.)
 npm install
-npm run build
 
-# Compilar
-composer run dev 
+# 4. Compilar os assets com Vite
+npm run build         # Ou npm run dev durante o desenvolvimento
 
-# Copiar arquivo de ambiente e gerar chave da aplicação
+# 5. Copiar o arquivo de ambiente
 cp .env.example .env
+
+# 6. Gerar chave da aplicação
 php artisan key:generate
 
-# Criar tabelas no banco de dados
+# 7. Criar as tabelas no banco de dados
 php artisan migrate
 
-# Iniciar o servidor
+# 8. Iniciar o servidor local
 php artisan serve
