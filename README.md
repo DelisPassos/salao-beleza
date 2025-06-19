@@ -20,6 +20,7 @@
 - MySQL (XAMPP)
 - Blade (ou Vue, se implementado)
 - Vite (via npm)
+- Bootstrap
 - HTML/CSS/JS
 
 ---
