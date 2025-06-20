@@ -67,6 +67,11 @@
                     <i class="bi bi-calendar-check"></i> Atendimentos
                 </a>
             </div>
+            <div class="col-md-3">
+                <a href="{{ route('produtos.index') }}" class="btn btn-outline-dark w-100">
+                    <i class="bi bi-box-seam"></i> Produtos
+                </a>
+            </div>
         </div>
     </div>
 </x-app-layout>
