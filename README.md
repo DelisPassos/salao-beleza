@@ -47,9 +47,8 @@ composer install
 npm install
 
 # 4. Compilar os assets com Vite
-npm run dev    # Durante o desenvolvimento
-# ou
-npm run build  # Para produção
+# Para produção
+npm run build  # Ou npm run dev Durante o desenvolvimento
 
 # 5. Copiar o arquivo de ambiente
 cp .env.example .env
