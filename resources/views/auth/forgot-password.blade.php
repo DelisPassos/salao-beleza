@@ -1,8 +1,10 @@
 <x-guest-layout>
     <x-auth-card title="Recuperar Senha">
-        <p class="text-white-50 mb-4 small">
-            Esqueceu sua senha? Sem problemas. Informe seu endereço de e-mail e enviaremos um link para que você possa redefini-la.
-        </p>
+        <div class="text-center">
+            <p class="text-white-50 mb-4 small">
+                Esqueceu sua senha? Sem problemas. Informe seu endereço de e-mail e enviaremos um link para que você possa redefini-la.
+            </p>
+        </div>
 
         <!-- Status da sessão -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
