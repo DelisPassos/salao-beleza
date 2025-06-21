@@ -12,7 +12,7 @@
     $message = $message ?? "Tem certeza que deseja excluir <strong>{$item}</strong>?";
 @endphp
 
-<x-modal name="{{ $id }}">
+<x-layout.modal name="{{ $id }}">
     <x-slot name="header">
         {{ $title }}
     </x-slot>
