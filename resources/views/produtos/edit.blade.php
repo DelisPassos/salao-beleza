@@ -5,52 +5,52 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-md rounded-lg p-6">
+    <div class="py-5">
+        <div class="container">
+        <div class="bg-dark bg-opacity-75 text-white rounded shadow p-5">
 
-                <form action="{{ route('products.update', $product->id) }}" method="POST">
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $erro)
+                                <li>{{ $erro }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('produtos.update', $produto->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label class="form-label">Nome do produto:</label>
-                        <input type="text" name="name" value="{{ $product->name }}" class="form-control" required>
+                        <label for="nome" class="form-label">Nome do Produto</label>
+                        <input type="text" name="nome" id="nome" class="form-control bg-light text-dark border-warning" value="{{ old('nome', $produto->nome) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Tipo:</label>
-                        <input type="text" name="type" value="{{ $product->type }}" class="form-control" required>
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea name="descricao" id="descricao" class="form-control bg-light text-dark border-warning" rows="2">{{ old('descricao', $produto->descricao) }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Quantidade em estoque:</label>
-                        <input type="number" name="quantity" value="{{ $product->quantity }}" class="form-control" required>
+                        <label for="quantidade" class="form-label">Quantidade</label>
+                        <input type="number" name="quantidade" id="quantidade" class="form-control bg-light text-dark border-warning" value="{{ old('quantidade', $produto->quantidade) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Unidade:</label>
-                        <input type="text" name="unit" value="{{ $product->unit }}" class="form-control" required>
+                        <label for="volume" class="form-label">Volume/Peso</label>
+                        <input type="number" name="volume" id="volume" class="form-control bg-light text-dark border-warning" value="{{ old('volume', $produto->volume) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Preço de compra:</label>
-                        <input type="text" name="price" value="{{ $product->price }}" class="form-control">
+                        <label for="preco" class="form-label">Preço (R$)</label>
+                        <input type="number" step="0.01" name="preco" id="preco" class="form-control bg-light text-dark border-warning" value="{{ old('preco', $produto->preco) }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Fornecedor:</label>
-                        <select name="supplier_id" class="form-select" required>
-                            @foreach($suppliers as $s)
-                                <option value="{{ $s->id }}" @if($s->id == $product->supplier_id) selected @endif>
-                                    {{ $s->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Atualizar</button>
-                    <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-sm btn-outline-warning">Atualizar</button>
+                    <a href="{{ route('produtos.index') }}" class="btn btn-sm btn-outline-danger">Cancelar</a>
                 </form>
 
             </div>
