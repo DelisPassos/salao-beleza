@@ -5,7 +5,7 @@
         </div>
 
         @if (session('status') == 'verification-link-sent')
-            <x-alerts type="success" message="Um novo link de verificação foi enviado para o e-mail fornecido durante o registro." />
+            <x-alerts.alert type="success" message="Um novo link de verificação foi enviado para o e-mail fornecido durante o registro." />
         @endif
 
         <div class="d-flex justify-content-between mt-4">
