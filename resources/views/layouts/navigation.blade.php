@@ -13,9 +13,45 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {{-- Links à esquerda --}}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {{-- Painel --}}
                 <li class="nav-item">
                     <x-buttons.nav-link :active="request()->routeIs('dashboard')" href="{{ route('dashboard') }}">
-                        La Belle
+                        <i class="bi bi-speedometer2 me-1"></i> Painel
+                    </x-buttons.nav-link>
+                </li>
+
+                {{-- Clientes --}}
+                <li class="nav-item">
+                    <x-buttons.nav-link :active="request()->routeIs('clientes.*')" href="{{ route('clientes.index') }}">
+                        <i class="bi bi-person-lines-fill me-1"></i> Clientes
+                    </x-buttons.nav-link>
+                </li>
+
+                {{-- Serviços --}}
+                <li class="nav-item">
+                    <x-buttons.nav-link :active="request()->routeIs('servicos.*')" href="{{ route('servicos.index') }}">
+                        <i class="bi bi-scissors me-1"></i> Serviços
+                    </x-buttons.nav-link>
+                </li>
+
+                {{-- Fornecedores --}}
+                <li class="nav-item">
+                    <x-buttons.nav-link :active="request()->routeIs('fornecedores.*')" href="{{ route('fornecedores.index') }}">
+                        <i class="bi bi-truck me-1"></i> Fornecedores
+                    </x-buttons.nav-link>
+                </li>
+
+                {{-- Produtos --}}
+                <li class="nav-item">
+                    <x-buttons.nav-link :active="request()->routeIs('produtos.*')" href="{{ route('produtos.index') }}">
+                        <i class="bi bi-box-seam me-1"></i> Produtos
+                    </x-buttons.nav-link>
+                </li>
+
+                {{-- Atendimentos --}}
+                <li class="nav-item">
+                    <x-buttons.nav-link :active="request()->routeIs('atendimentos.*')" href="{{ route('atendimentos.index') }}">
+                        <i class="bi bi-calendar-check me-1"></i> Atendimentos
                     </x-buttons.nav-link>
                 </li>
             </ul>
