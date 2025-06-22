@@ -15,7 +15,8 @@ class UpdateAtendimentoRequest extends FormRequest
     {
         return [
             'cliente_id' => ['required', 'exists:clientes,id'],
-            'servico_id' => ['required', 'exists:servicos,id'],
+            'servicos' => ['required', 'array', 'min:1'],
+            'servicos.*' => ['exists:servicos,id'],
             'data' => ['required', 'date'],
             'valor_pago' => ['required', 'numeric', 'min:0'],
         ];

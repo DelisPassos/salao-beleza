@@ -15,9 +15,21 @@ class AtendimentoFactory extends Factory
     {
         return [
             'cliente_id' => Cliente::factory(),
-            'servico_id' => Servico::factory(),
             'valor_pago' => $this->faker->randomFloat(2, 50, 500),
             'data' => now(),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Atendimento $atendimento) {
+            $servicos = Servico::inRandomOrder()->take(rand(1, 3))->get();
+
+            foreach ($servicos as $servico) {
+                $atendimento->servicos()->attach($servico->id, [
+                    'preco' => $servico->preco ?? $this->faker->randomFloat(2, 30, 200),
+                ]);
+            }
+        });
     }
 }

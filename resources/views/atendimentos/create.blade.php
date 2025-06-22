@@ -4,7 +4,7 @@
     <div class="py-5 bg-black text-white">
         <div class="container">
             <x-cards.card-t-privado>
-                
+
                 {{-- Formulário de criação --}}
                 <x-forms.form :action="route('atendimentos.store')" :cancelRoute="route('atendimentos.index')">
                     <div class="row">
@@ -22,18 +22,18 @@
                             <x-forms.input-error :messages="$errors->get('cliente_id')" class="mt-2 text-warning" />
                         </div>
 
-                        {{-- Serviço --}}
+                        {{-- Serviços (múltiplos) --}}
                         <div class="col-md-6">
-                            <x-forms.input-label for="servico_id" value="Serviço" />
-                            <select name="servico_id" id="servico_id" class="form-select bg-black text-white border-warning">
-                                <option value="">Selecione um serviço</option>
+                            <x-forms.input-label for="servicos" value="Serviços" />
+                            <select name="servicos[]" id="servicos" multiple class="form-select bg-black text-white border-warning">
                                 @foreach ($servicos as $servico)
-                                    <option value="{{ $servico->id }}" {{ old('servico_id') == $servico->id ? 'selected' : '' }}>
+                                    <option value="{{ $servico->id }}"
+                                        {{ (collect(old('servicos'))->contains($servico->id)) ? 'selected' : '' }}>
                                         {{ $servico->nome }}
                                     </option>
                                 @endforeach
                             </select>
-                            <x-forms.input-error :messages="$errors->get('servico_id')" class="mt-2 text-warning" />
+                            <x-forms.input-error :messages="$errors->get('servicos')" class="mt-2 text-warning" />
                         </div>
                     </div>
 

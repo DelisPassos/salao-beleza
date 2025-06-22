@@ -18,11 +18,15 @@
                 />
 
                 {{-- Tabela de atendimentos --}}
-                <x-tables.table :headers="['Cliente', 'Serviço', 'Data', 'Valor', 'Ações']">
+                <x-tables.table :headers="['Cliente', 'Serviços', 'Data', 'Valor', 'Ações']">
                     @forelse($atendimentos as $atendimento)
                         <tr>
                             <td>{{ $atendimento->cliente->nome }}</td>
-                            <td>{{ $atendimento->servico->nome }}</td>
+                            <td>
+                                @foreach ($atendimento->servicos as $servico)
+                                    <span class="badge bg-warning text-black me-1">{{ $servico->nome }}</span>
+                                @endforeach
+                            </td>
                             <td>{{ $atendimento->data->format('d/m/Y H:i') }}</td>
                             <td>R$ {{ number_format($atendimento->valor_pago, 2, ',', '.') }}</td>
                             <td class="text-center">

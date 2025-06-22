@@ -11,13 +11,14 @@ class Atendimento extends Model
 
     protected $fillable = [
         'cliente_id',
-        'servico_id',
-        'valor_pago',
+        'profissional_id',
         'data',
+        'valor_pago',
+        'observacoes',
     ];
 
     protected $casts = [
-        'data' => 'datetime', // Garante que o campo seja um objeto Carbon
+        'data' => 'datetime',
     ];
 
     public function cliente()
@@ -25,8 +26,23 @@ class Atendimento extends Model
         return $this->belongsTo(Cliente::class);
     }
 
-    public function servico()
+    public function profissional()
     {
-        return $this->belongsTo(Servico::class);
+        return $this->belongsTo(User::class, 'profissional_id');
+    }
+
+    public function servicos()
+    {
+        return $this->belongsToMany(Servico::class, 'atendimento_servico')
+                    ->withPivot('preco')
+                    ->withTimestamps();
+    }
+
+    public function produtos()
+    {
+        return $this->belongsToMany(Produto::class, 'atendimento_produto')
+                    ->withPivot('quantidade_usada')
+                    ->withTimestamps();
     }
 }
+
