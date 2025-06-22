@@ -12,7 +12,6 @@ return new class extends Migration
         Schema::create('atendimentos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cliente_id')->constrained()->onDelete('cascade');
-            $table->foreignId('servico_id')->constrained()->onDelete('cascade');
             $table->foreignId('profissional_id')->nullable()->constrained('users')->onDelete('set null');
             $table->dateTime('data');
             $table->decimal('valor_pago', 10, 2)->default(0);

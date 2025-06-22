@@ -9,8 +9,16 @@ class Servico extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nome',
+        'descricao',
+        'preco',
+    ];
+
     public function atendimentos()
     {
-        return $this->hasMany(Atendimento::class);
+        return $this->belongsToMany(Atendimento::class, 'atendimento_servico')
+                    ->withPivot('preco')
+                    ->withTimestamps();
     }
 }

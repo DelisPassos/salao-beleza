@@ -12,11 +12,18 @@ class DashboardController extends Controller
     public function index()
     {
         return view('dashboard', [
+            // Soma dos valores pagos hoje
             'vendasHoje' => Atendimento::whereDate('created_at', today())->sum('valor_pago'),
+
+            // Serviço mais popular baseado no número de atendimentos na pivot
             'servicoPopular' => Servico::withCount('atendimentos')
-                                ->orderByDesc('atendimentos_count')
-                                ->first()->nome ?? 'Nenhum',
+                ->orderByDesc('atendimentos_count')
+                ->value('nome') ?? 'Nenhum',
+
+            // Contagem total de clientes
             'clientesAtivos' => Cliente::count(),
+
+            // Total de atendimentos feitos hoje
             'atendimentosHoje' => Atendimento::whereDate('created_at', today())->count(),
         ]);
     }
