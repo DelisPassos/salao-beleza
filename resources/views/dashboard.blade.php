@@ -1,70 +1,69 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="h4 font-weight-bold text-dark mb-0">Dashboard</h2>
-    </x-slot>
+    <x-layout.header title="Painel de Indicadores" />
 
     <div class="container py-4">
         {{-- Boas-vindas --}}
-        <div class="alert alert-info">
-            Bem-vindo(a), {{ Auth::user()->name }}! Escolha uma opção abaixo para começar.
-        </div>
+        <x-alerts.alert type="info" :message="'Bem-vindo(a), ' . Auth::user()->name . '! Escolha uma opção abaixo para começar.'" />
 
         {{-- Painel de Indicadores --}}
         <div class="row mb-4">
             <div class="col-md-3">
-                <div class="card text-white bg-success mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Vendas do Dia</h5>
-                        <p class="card-text">R$ {{ $vendasHoje ?? '0,00' }}</p>
+                <x-cards.card-t-privado>
+                    <div class="text-success">
+                        <h5 class="fw-bold">Vendas do Dia</h5>
+                        <p class="mb-0">R$ {{ $vendasHoje ?? '0,00' }}</p>
                     </div>
-                </div>
+                </x-cards.card-t-privado>
             </div>
+
             <div class="col-md-3">
-                <div class="card text-white bg-primary mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Serviço + Popular</h5>
-                        <p class="card-text">{{ $servicoPopular ?? 'Nenhum' }}</p>
+                <x-cards.card-t-privado>
+                    <div class="text-primary">
+                        <h5 class="fw-bold">Serviço + Popular</h5>
+                        <p class="mb-0">{{ $servicoPopular ?? 'Nenhum' }}</p>
                     </div>
-                </div>
+                </x-cards.card-t-privado>
             </div>
+
             <div class="col-md-3">
-                <div class="card text-white bg-warning mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Clientes Ativos</h5>
-                        <p class="card-text">{{ $clientesAtivos ?? '0' }}</p>
+                <x-cards.card-t-privado>
+                    <div class="text-warning">
+                        <h5 class="fw-bold">Clientes Ativos</h5>
+                        <p class="mb-0">{{ $clientesAtivos ?? '0' }}</p>
                     </div>
-                </div>
+                </x-cards.card-t-privado>
             </div>
+
             <div class="col-md-3">
-                <div class="card text-white bg-danger mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Atendimentos Hoje</h5>
-                        <p class="card-text">{{ $atendimentosHoje ?? '0' }}</p>
+                <x-cards.card-t-privado>
+                    <div class="text-danger">
+                        <h5 class="fw-bold">Atendimentos Hoje</h5>
+                        <p class="mb-0">{{ $atendimentosHoje ?? '0' }}</p>
                     </div>
-                </div>
+                </x-cards.card-t-privado>
             </div>
         </div>
 
         {{-- Acessos rápidos --}}
         <div class="row g-3 mb-4">
             <div class="col-md-3">
-                <a href="{{ route('servicos.index') }}" class="btn btn-outline-dark w-100">
-                    <i class="bi bi-scissors"></i> Serviços
+                <a href="{{ route('servicos.index') }}" class="btn btn-outline-warning w-100">
+                    <i class="bi bi-scissors me-1"></i> Serviços
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{ route('fornecedores.index') }}" class="btn btn-outline-dark w-100">
-                    <i class="bi bi-truck"></i> Fornecedores
+                <a href="{{ route('fornecedores.index') }}" class="btn btn-outline-warning w-100">
+                    <i class="bi bi-truck me-1"></i> Fornecedores
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{ route('clientes.index') }}" class="btn btn-outline-dark w-100">
-                    <i class="bi bi-person"></i> Clientes
+                <a href="{{ route('clientes.index') }}" class="btn btn-outline-warning w-100">
+                    <i class="bi bi-person me-1"></i> Clientes
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{ route('atendimentos.index') }}" class="btn btn-outline-dark w-100">
-                    <i class="bi bi-calendar-check"></i> Atendimentos
+                <a href="{{ route('atendimentos.index') }}" class="btn btn-outline-warning w-100">
+                    <i class="bi bi-calendar-check me-1"></i> Atendimentos
                 </a>
             </div>
         </div>

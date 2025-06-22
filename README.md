@@ -5,7 +5,7 @@
 <h2 align="center">Sistema de Gestão para Salão de Beleza - La Bella</h2>
 
 <p align="center">
-  Projeto desenvolvido em Laravel para controle interno de atendimentos, clientes e serviços em salões de beleza.
+  Projeto desenvolvido com Laravel para controle interno de atendimentos, clientes, serviços e fornecedores em salões de beleza.
 </p>
 
 ---
@@ -19,17 +19,17 @@
 - Bootstrap 5.3 (via Vite e npm)
 - Bootstrap Icons
 - HTML/CSS/JS
-- Mailpit (para simulação de e-mails em desenvolvimento)
+- Mailpit (para simulação de envio de e-mails em ambiente local)
 
 ---
 
 ## 📋 Requisitos para Rodar Localmente
 
-- PHP ≥ 8.1 (com extensões: OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, JSON)
+- PHP ≥ 8.1
 - Composer
 - Node.js e npm
 - MySQL ou MariaDB
-- XAMPP (opcional, mas recomendado para ambiente local)
+- XAMPP (opcional, recomendado para desenvolvimento local)
 
 ---
 
@@ -40,7 +40,7 @@
 git clone https://github.com/seu-usuario/salao-beleza.git
 cd salao-beleza
 
-# 2. Instalar dependências PHP
+# 2. Instalar dependências do backend
 composer install
 
 # 3. Instalar dependências do frontend
@@ -48,7 +48,7 @@ npm install
 
 # 4. Compilar os assets com Vite
 # Para produção
-npm run build  # Ou npm run dev Durante o desenvolvimento
+npm run build      # Ou npm run dev  Para desenvolvimento
 
 # 5. Copiar o arquivo de ambiente
 cp .env.example .env
@@ -56,10 +56,13 @@ cp .env.example .env
 # 6. Gerar chave da aplicação
 php artisan key:generate
 
-# 7. Configurar conexão com o banco no .env
+# 7. Configurar o banco de dados no arquivo `.env`
 
 # 8. Rodar as migrações
 php artisan migrate
+
+# (Opcional) Rodar seeders com dados de teste
+php artisan db:seed --class=TestDataSeeder
 
 # 9. Iniciar o servidor local
 php artisan serve
@@ -67,22 +70,19 @@ php artisan serve
 
 ---
 
-## 🔐 Recuperação de Senha com Mailpit (ambiente local)
+## 🔐 Recuperação de Senha com Mailpit
 
-Para testar o envio de e-mails de redefinição de senha:
+### 1. Instalar e rodar o Mailpit
 
-### 1. Baixar e rodar o Mailpit
-
-- Acesse: [https://github.com/axllent/mailpit/releases](https://github.com/axllent/mailpit/releases)
-- Baixe a versão compatível com seu sistema (ex: `mailpit-windows-amd64.exe`)
-- Execute o Mailpit (duplo clique ou via terminal):
+- Baixe: [https://github.com/axllent/mailpit/releases](https://github.com/axllent/mailpit/releases)
+- Use o arquivo apropriado para seu sistema (ex: `mailpit-windows-amd64.exe`)
+- Execute:
   ```bash
   ./mailpit-windows-amd64.exe
   ```
+- A interface estará disponível em [http://localhost:8025](http://localhost:8025)
 
-- Ele ficará disponível em [http://localhost:8025](http://localhost:8025)
-
-### 2. Configurar `.env` para Mailpit
+### 2. Configurar `.env`
 
 ```env
 MAIL_MAILER=smtp
@@ -95,19 +95,19 @@ MAIL_FROM_ADDRESS="nao-responda@example.com"
 MAIL_FROM_NAME="La Bella"
 ```
 
-### 3. Testar o fluxo
+### 3. Testar
 
 - Acesse: `http://localhost:8000/forgot-password`
-- Envie um e-mail válido cadastrado
-- Acesse o Mailpit em `http://localhost:8025`, clique no link recebido
-- Redefina sua senha
+- Informe um e-mail válido cadastrado
+- Abra o Mailpit e clique no link recebido para redefinir a senha
 
 ---
 
 ## 📌 Observações
 
-- Esse projeto utiliza componentes Blade personalizados com layout escuro (fundo preto, texto branco e destaques em dourado).
-- Caso use o sistema em produção, substitua Mailpit por um serviço real de SMTP (Ex: Mailtrap, SendGrid, Mailgun etc.).
+- O sistema possui um layout escuro (preto, branco e dourado), com componentes Blade personalizados e responsivos.
+- A navegação pública e privada seguem padrões distintos para melhor usabilidade.
+- Para ambiente de produção, configure um serviço SMTP real (ex: SendGrid, Mailtrap, Mailgun).
 
 ---
 
