@@ -6,14 +6,14 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class confirm-delete extends Component
+class ConfirmDelete extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
-        //
+        // Aqui você pode adicionar propriedades como $name, $route, etc., se quiser usar no PHP
     }
 
     /**
@@ -21,6 +21,6 @@ class confirm-delete extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.confirm-delete');
+        return view('components.modals.confirm-delete');
     }
 }

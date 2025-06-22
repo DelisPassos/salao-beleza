@@ -12,12 +12,14 @@
     $message = $message ?? "Tem certeza que deseja excluir <strong>{$item}</strong>?";
 @endphp
 
-<x-layout.modal name="{{ $id }}">
+<x-layout.modal id="{{ $id }}">
     <x-slot name="header">
         {{ $title }}
     </x-slot>
 
     {!! $message !!}
+
+    {{ $slot }}
 
     <x-slot name="footer">
         <form action="{{ $route }}" method="POST">
@@ -33,4 +35,4 @@
             </button>
         </form>
     </x-slot>
-</x-modal>
+</x-layout.modal>
