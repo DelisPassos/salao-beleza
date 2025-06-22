@@ -9,24 +9,18 @@
         </p>
     </header>
 
-    {{-- Botão que abre o modal do Bootstrap --}}
-    <button
-        type="button"
-        class="btn btn-danger mt-3"
-        data-bs-toggle="modal"
-        data-bs-target="#confirm-user-deletion"
-    >
-        {{ __('Excluir Conta') }}
-    </button>
+    {{-- Botão Excluir --}}
+    <x-buttons.delete-button 
+        data-bs-toggle="modal" 
+        data-bs-target="#modal-delete-{{ $user->id }}">
+            Excluir
+    </x-buttons.delete-button>
 
     {{-- Modal de confirmação --}}
     <x-modals.confirm-delete
-        id="confirm-user-deletion"
-        :route="route('profile.destroy')"
-        item="sua conta"
-        title="Excluir Conta"
-        :show="false"
-        buttonText="Excluir Conta"
+        id="modal-delete-{{ $user->id }}"
+        route="{{ route('profile.destroy', $user) }}"
+        :item="$user->nome"
     >
         <div class="mt-3">
             <x-forms.input-label for="password" :value="__('Senha')" class="visually-hidden" />
