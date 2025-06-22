@@ -9,7 +9,7 @@ class ClienteSeeder extends Seeder
 {
     public function run()
     {
-        // Cria 20 clientes fake
+        // Cria 10 clientes fake
         Cliente::factory()->count(10)->create();
     }
 }
