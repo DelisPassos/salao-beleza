@@ -16,7 +16,6 @@ class CreateProdutosTable extends Migration
             $table->string('nome');
             $table->text('descricao')->nullable();
             $table->integer('quantidade');
-            $table->integer('volume');
             $table->decimal('preco', 10, 2);
             $table->timestamps();
         });
