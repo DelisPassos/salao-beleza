@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Rotas RESTful para as entidades do sistema
-    Route::resource('atendimentos', AtendimentoController::class);
+    Route::resource('atendimentos', AtendimentoController::class)->middleware(['auth']);
     Route::resource('clientes', ClienteController::class);
     Route::resource('fornecedores', FornecedorController::class);
     Route::resource('produtos', ProdutoController::class);

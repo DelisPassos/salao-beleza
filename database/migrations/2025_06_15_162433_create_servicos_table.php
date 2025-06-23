@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('servicos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->text('descricao');
             $table->decimal('preco', 8, 2); // até 999.999,99
             $table->timestamps();
         });

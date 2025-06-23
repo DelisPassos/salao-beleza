@@ -17,7 +17,7 @@
 <body class="bg-black text-white d-flex justify-content-center align-items-center min-vh-100">
     
     <div class="container" style="max-width: 400px;">
-        <div class="m-3"><x-application-logo public/></div>
+        <div class="m-3"><x-layout.application-logo public/></div>
         <div class="card bg-dark bg-opacity-75 text-white shadow-lg border-0 p-4">
             {{-- Mensagem de boas-vindas --}}
             <h2 class="text-center text-warning fw-bold mb-2">Bem-vindo ao La Belle</h2>
@@ -28,7 +28,7 @@
                 <div class="d-grid gap-2">
                     @auth
                         <a href="{{ url('/dashboard') }}" class="btn btn-warning fw-semibold text-black">
-                            <i class="bi bi-speedometer2 me-1"></i> Acessar Dashboard
+                            <i class="bi bi-speedometer2 me-1"></i> Acessar Painel
                         </a>
                     @else
                         <a href="{{ route('login') }}" class="btn btn-outline-warning fw-semibold">

@@ -1,24 +1,24 @@
 <x-guest-layout>
-    <x-auth-card title="Entrar">
+    <x-cards.card-t-public title="Entrar">
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <!-- Email -->
             <div class="mb-3">
-                <x-input-label for="email" :value="'Email'" />
-                <x-text-input id="email" type="email" name="email"
+                <x-forms.input-label for="email" :value="'Email'" />
+                <x-forms.text-input id="email" type="email" name="email"
                               class="w-100"
                               :value="old('email')" required autofocus />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <x-forms.input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
             <!-- Senha -->
             <div class="mb-3">
-                <x-input-label for="password" :value="'Senha'" />
-                <x-text-input id="password" type="password" name="password"
+                <x-forms.input-label for="password" :value="'Senha'" />
+                <x-forms.text-input id="password" type="password" name="password"
                               class="w-100"
                               required autocomplete="current-password" />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <x-forms.input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
             <!-- Lembrar-me -->
@@ -36,10 +36,10 @@
                     </a>
                 @endif
 
-                <x-primary-button>
+                <x-buttons.primary-button>
                     {{ __('Entrar') }}
-                </x-primary-button>
+                </x-buttons.primary-button>
             </div>
         </form>
-    </x-auth-card>
+    </x-cards.card-t-public>
 </x-guest-layout>
