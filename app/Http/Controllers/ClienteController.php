@@ -32,10 +32,10 @@ class ClienteController extends Controller
     {
         $request->validate([
         'nome' => 'required|string|max:255',
-        'email' => 'nullable|email|max:255',
-        'telefone' => 'nullable|string|max:20',
-        'cpf' => 'nullable|string|size:14|unique:clientes,cpf,' . ($cliente->id ?? 'null'),
-        'endereco' => 'nullable|string|max:255',
+        'email' => 'required|email|max:255',
+        'telefone' => 'required|string|max:20',
+        'cpf' => 'required|string|size:14|unique:clientes,cpf,' . ($cliente->id ?? 'null'),
+        'endereco' => 'required|string|max:255',
         ]);
 
         Cliente::create($request->only(['nome', 'email', 'telefone', 'cpf', 'endereco']));
@@ -67,10 +67,10 @@ class ClienteController extends Controller
     {
         $request->validate([
         'nome' => 'required|string|max:255',
-        'email' => 'nullable|email|max:255',
-        'telefone' => 'nullable|string|max:20',
-        'cpf' => 'nullable|string|size:14|unique:clientes,cpf,' . ($cliente->id ?? 'null'),
-        'endereco' => 'nullable|string|max:255',
+        'email' => 'required|email|max:255',
+        'telefone' => 'required|string|max:20',
+        'cpf' => 'required|string|size:14|unique:clientes,cpf,' . ($cliente->id ?? 'null'),
+        'endereco' => 'required|string|max:255',
         ]);
 
         $cliente->update($request->only(['nome', 'email', 'telefone', 'cpf', 'endereco']));

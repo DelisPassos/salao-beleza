@@ -22,7 +22,7 @@ class ServicoController extends Controller
     {
         $validated = $request->validate([
             'nome' => ['required', 'string', 'max:100'],
-            'descricao' => ['nullable', 'string', 'max:255'],
+            'descricao' => ['required', 'string', 'max:255'],
             'preco' => ['required', 'numeric', 'min:0'],
         ]);
 

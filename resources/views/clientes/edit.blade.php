@@ -5,17 +5,6 @@
         <div class="container">
             <x-cards.card-t-privado>
 
-                {{-- Exibição de erros de validação --}}
-                @if ($errors->any())
-                    <x-alerts.alert type="danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </x-alerts.alert>
-                @endif
-
                 {{-- Formulário de edição --}}
                 <x-forms.form :action="route('clientes.update', $cliente)" :cancelRoute="route('clientes.index')">
                     @method('PUT')
