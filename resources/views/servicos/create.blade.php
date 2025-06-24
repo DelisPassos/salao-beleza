@@ -5,17 +5,6 @@
         <div class="container">
             <x-cards.card-t-privado>
 
-                {{-- Alerta de erros --}}
-                @if ($errors->any())
-                    <x-alerts.alert type="danger" class="mb-4">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </x-alerts.alert>
-                @endif
-
                 {{-- Formulário --}}
                 <x-forms.form :action="route('servicos.store')" :cancelRoute="route('servicos.index')">
                     {{-- Nome --}}
