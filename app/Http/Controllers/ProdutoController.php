@@ -3,65 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreProdutoRequest;
+use App\Http\Requests\UpdateProdutoRequest;
 
 class ProdutoController extends Controller
 {
+    /**
+     * Lista todos os produtos.
+     */
     public function index()
     {
-        $produtos = Produto::all();
+        $produtos = Produto::latest()->paginate(10);
+
         return view('produtos.index', compact('produtos'));
     }
 
+    /**
+     * Mostra o formulário de criação.
+     */
     public function create()
     {
         return view('produtos.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Armazena um novo produto no banco.
+     */
+    public function store(StoreProdutoRequest $request)
     {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'quantidade' => 'required|integer|min:0',
-            'volume' => 'nullable|string|max:50',
-            'preco' => 'required|numeric|min:0',
-        ]);
+        Produto::create($request->validated());
 
-        Produto::create([
-            'nome' => $request->nome,
-            'descricao' => $request->descricao,
-            'quantidade' => $request->quantidade,
-            'volume' => $request->volume,
-            'preco' => $request->preco,
-        ]);
-
-        return redirect()->route('produtos.index')->with('success', 'Produto cadastrado com sucesso!');
+        return redirect()->route('produtos.index')
+                         ->with('success', 'Produto cadastrado com sucesso!');
     }
 
+    /**
+     * Mostra o formulário de edição.
+     */
     public function edit(Produto $produto)
     {
         return view('produtos.edit', compact('produto'));
     }
 
-    public function update(Request $request, Produto $produto)
+    /**
+     * Atualiza os dados de um produto.
+     */
+    public function update(UpdateProdutoRequest $request, Produto $produto)
     {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'quantidade' => 'required|integer|min:0',
-            'volume' => 'nullable|string|max:50',
-            'preco' => 'required|numeric|min:0',
-        ]);
+        $produto->update($request->validated());
 
-        $produto->update($request->only(['nome', 'descricao', 'quantidade', 'volume', 'preco']));
-
-        return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso!');
+        return redirect()->route('produtos.index')
+                         ->with('success', 'Produto atualizado com sucesso!');
     }
 
+    /**
+     * Remove o produto do banco.
+     */
     public function destroy(Produto $produto)
     {
         $produto->delete();
-        return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso!');
+
+        return redirect()->route('produtos.index')
+                         ->with('success', 'Produto excluído com sucesso!');
     }
 }
