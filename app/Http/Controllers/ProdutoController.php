@@ -3,64 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreProdutoRequest;
+use App\Http\Requests\UpdateProdutoRequest;
 
 class ProdutoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista todos os produtos.
      */
     public function index()
     {
-        return view('produtos.index');
+        $produtos = Produto::latest()->paginate(10);
+
+        return view('produtos.index', compact('produtos'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostra o formulário de criação.
      */
     public function create()
     {
-        //
+        return view('produtos.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Armazena um novo produto no banco.
      */
-    public function store(Request $request)
+    public function store(StoreProdutoRequest $request)
     {
-        //
+        Produto::create($request->validated());
+
+        return redirect()->route('produtos.index')
+                         ->with('success', 'Produto cadastrado com sucesso!');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Produto $produto)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Mostra o formulário de edição.
      */
     public function edit(Produto $produto)
     {
-        //
+        return view('produtos.edit', compact('produto'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza os dados de um produto.
      */
-    public function update(Request $request, Produto $produto)
+    public function update(UpdateProdutoRequest $request, Produto $produto)
     {
-        //
+        $produto->update($request->validated());
+
+        return redirect()->route('produtos.index')
+                         ->with('success', 'Produto atualizado com sucesso!');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove o produto do banco.
      */
     public function destroy(Produto $produto)
     {
-        //
+        $produto->delete();
+
+        return redirect()->route('produtos.index')
+                         ->with('success', 'Produto excluído com sucesso!');
     }
 }

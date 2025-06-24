@@ -7,6 +7,7 @@
             {{-- Cartão padrão privado --}}
             <x-cards.card-t-privado>
 
+                {{-- Alerta de sucesso --}}
                 @if(session('success'))
                     <x-alerts.alert type="success" :message="session('success')" class="mb-4" />
                 @endif
@@ -20,36 +21,36 @@
 
                 {{-- Tabela de produtos --}}
                 <x-tables.table :headers="['Nome', 'Descrição', 'Quantidade', 'Volume/Peso', 'Preço', 'Total', 'Ações']">
-                    @forelse($produtos as $p)
+                    @forelse($produtos as $produto)
                         <tr>
-                            <td>{{ $p->nome }}</td>
-                            <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $p->descricao }}">
-                                {{ $p->descricao }}
+                            <td>{{ $produto->nome }}</td>
+                            <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $produto->descricao }}">
+                                {{ $produto->descricao }}
                             </td>
-                            <td>{{ $p->quantidade }}</td>
-                            <td>{{ $p->volume }}</td>
-                            <td>R$ {{ number_format($p->preco, 2, ',', '.') }}</td>
-                            <td>R$ {{ number_format($p->quantidade * $p->preco, 2, ',', '.') }}</td>
+                            <td>{{ $produto->quantidade }}</td>
+                            <td>{{ $produto->volume }}</td>
+                            <td>R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
+                            <td>R$ {{ number_format($produto->quantidade * $produto->preco, 2, ',', '.') }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
 
                                     {{-- Botão Editar --}}
-                                    <a href="{{ route('produtos.edit', $p->id) }}">
+                                    <a href="{{ route('produtos.edit', $produto->id) }}">
                                         <x-buttons.edit-button>Editar</x-buttons.edit-button>
                                     </a>
 
                                     {{-- Botão Excluir com modal --}}
                                     <x-buttons.delete-button 
                                         data-bs-toggle="modal" 
-                                        data-bs-target="#modal-delete-{{ $p->id }}">
+                                        data-bs-target="#modal-delete-{{ $produto->id }}">
                                         Excluir
                                     </x-buttons.delete-button>
 
                                     {{-- Modal de confirmação --}}
                                     <x-modals.confirm-delete 
-                                        id="modal-delete-{{ $p->id }}"
-                                        route="{{ route('produtos.destroy', $p->id) }}"
-                                        item="o produto {{ $p->nome }}"
+                                        id="modal-delete-{{ $produto->id }}"
+                                        route="{{ route('produtos.destroy', $produto->id) }}"
+                                        item="o produto {{ $produto->nome }}"
                                     />
                                 </div>
                             </td>
@@ -58,6 +59,11 @@
                         <x-tables.table-empty colspan="7" message="Nenhum produto cadastrado." />
                     @endforelse
                 </x-tables.table>
+
+                {{-- Paginação --}}
+                <div class="mt-4">
+                    {{ $produtos->links() }}
+                </div>
 
             </x-cards.card-t-privado>
         </div>
