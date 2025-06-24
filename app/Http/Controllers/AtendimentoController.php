@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Atendimento;
-use App\Models\Cliente;
-use App\Models\Servico;
-use Illuminate\Http\Request;
+use App\Models\Produto;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreAtendimentoRequest;
 use App\Http\Requests\UpdateAtendimentoRequest;
 
@@ -13,74 +12,134 @@ class AtendimentoController extends Controller
 {
     public function index()
     {
-        $atendimentos = Atendimento::with(['cliente', 'servicos'])->latest()->get();
+        $atendimentos = Atendimento::with(['cliente', 'servicos'])->latest()->paginate(10);
 
         return view('atendimentos.index', compact('atendimentos'));
     }
 
     public function create()
     {
-        $clientes = Cliente::all();
-        $servicos = Servico::all();
+        $clientes = \App\Models\Cliente::all();
+        $profissionais = \App\Models\User::all();
+        $servicos = \App\Models\Servico::all();
+        $produtos = \App\Models\Produto::all();
 
-        return view('atendimentos.create', compact('clientes', 'servicos'));
+        return view('atendimentos.create', compact('clientes', 'profissionais', 'servicos', 'produtos'));
     }
 
     public function store(StoreAtendimentoRequest $request)
     {
-        // Cria o atendimento
-        $atendimento = Atendimento::create([
-            'cliente_id'     => $request->cliente_id,
-            'profissional_id'=> $request->profissional_id,
-            'valor_pago'     => $request->valor_pago,
-            'data'           => $request->data,
-            'observacoes'    => $request->observacoes,
-        ]);
+        $validated = $request->validated();
 
-        // Associa os serviços selecionados (com preço 0 por padrão)
-        foreach ($request->servicos as $servicoId) {
-            $atendimento->servicos()->attach($servicoId, ['preco' => 0]);
-        }
+        DB::transaction(function () use ($validated) {
+            $atendimento = Atendimento::create([
+                'cliente_id' => $validated['cliente_id'],
+                'profissional_id' => $validated['profissional_id'] ?? null,
+                'data' => $validated['data'],
+                'valor_pago' => $validated['valor_pago'],
+                'observacoes' => $validated['observacoes'] ?? null,
+            ]);
+
+            foreach ($validated['servicos'] as $servico) {
+                $atendimento->servicos()->attach($servico['id'], [
+                    'preco' => $servico['preco'],
+                ]);
+            }
+
+            if (!empty($validated['produtos'])) {
+                foreach ($validated['produtos'] as $produtoData) {
+                    $produto = Produto::findOrFail($produtoData['id']);
+
+                    if ($produto->quantidade < $produtoData['quantidade_usada']) {
+                        throw new \Exception("Estoque insuficiente do produto: {$produto->nome}");
+                    }
+
+                    $produto->decrement('quantidade', $produtoData['quantidade_usada']);
+
+                    $atendimento->produtos()->attach($produto->id, [
+                        'quantidade_usada' => $produtoData['quantidade_usada'],
+                    ]);
+                }
+            }
+        });
 
         return redirect()->route('atendimentos.index')
-                         ->with('success', 'Atendimento cadastrado com sucesso!');
+            ->with('success', 'Atendimento registrado com sucesso!');
     }
 
     public function edit(Atendimento $atendimento)
     {
-        $clientes = Cliente::all();
-        $servicos = Servico::all();
-        $atendimento->load('servicos');
+        $atendimento->load(['cliente', 'profissional', 'servicos', 'produtos']);
 
-        return view('atendimentos.edit', compact('atendimento', 'clientes', 'servicos'));
+        $clientes = \App\Models\Cliente::all();
+        $profissionais = \App\Models\User::all();
+        $servicos = \App\Models\Servico::all();
+        $produtos = \App\Models\Produto::all();
+
+        return view('atendimentos.edit', compact('atendimento', 'clientes', 'profissionais', 'servicos', 'produtos'));
     }
 
     public function update(UpdateAtendimentoRequest $request, Atendimento $atendimento)
     {
-        $atendimento->update([
-            'cliente_id'     => $request->cliente_id,
-            'profissional_id'=> $request->profissional_id,
-            'valor_pago'     => $request->valor_pago,
-            'data'           => $request->data,
-            'observacoes'    => $request->observacoes,
-        ]);
+        $validated = $request->validated();
 
-        // Sincroniza os serviços (com preço 0 por padrão)
-        $servicos = collect($request->servicos)->mapWithKeys(function ($id) {
-            return [$id => ['preco' => 0]];
+        DB::transaction(function () use ($atendimento, $validated) {
+            $atendimento->update([
+                'cliente_id' => $validated['cliente_id'],
+                'profissional_id' => $validated['profissional_id'] ?? null,
+                'data' => $validated['data'],
+                'valor_pago' => $validated['valor_pago'],
+                'observacoes' => $validated['observacoes'] ?? null,
+            ]);
+
+            $syncServicos = [];
+            foreach ($validated['servicos'] as $servico) {
+                $syncServicos[$servico['id']] = ['preco' => $servico['preco']];
+            }
+            $atendimento->servicos()->sync($syncServicos);
+
+            foreach ($atendimento->produtos as $produto) {
+                $produto->increment('quantidade', $produto->pivot->quantidade_usada);
+            }
+
+            $syncProdutos = [];
+            if (!empty($validated['produtos'])) {
+                foreach ($validated['produtos'] as $produtoData) {
+                    $produto = Produto::findOrFail($produtoData['id']);
+
+                    if ($produto->quantidade < $produtoData['quantidade_usada']) {
+                        throw new \Exception("Estoque insuficiente do produto: {$produto->nome}");
+                    }
+
+                    $produto->decrement('quantidade', $produtoData['quantidade_usada']);
+
+                    $syncProdutos[$produto->id] = [
+                        'quantidade_usada' => $produtoData['quantidade_usada'],
+                    ];
+                }
+            }
+
+            $atendimento->produtos()->sync($syncProdutos);
         });
 
-        $atendimento->servicos()->sync($servicos);
-
         return redirect()->route('atendimentos.index')
-                         ->with('success', 'Atendimento atualizado com sucesso!');
+            ->with('success', 'Atendimento atualizado com sucesso!');
     }
 
     public function destroy(Atendimento $atendimento)
     {
-        $atendimento->delete();
+        DB::transaction(function () use ($atendimento) {
+            // Repor estoque dos produtos usados
+            foreach ($atendimento->produtos as $produto) {
+                $produto->increment('quantidade', $produto->pivot->quantidade_usada);
+            }
+
+            $atendimento->servicos()->detach();
+            $atendimento->produtos()->detach();
+            $atendimento->delete();
+        });
 
         return redirect()->route('atendimentos.index')
-                         ->with('success', 'Atendimento excluído com sucesso!');
+            ->with('success', 'Atendimento excluído com sucesso!');
     }
 }

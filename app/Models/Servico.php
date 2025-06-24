@@ -18,7 +18,8 @@ class Servico extends Model
     public function atendimentos()
     {
         return $this->belongsToMany(Atendimento::class, 'atendimento_servico')
-                    ->withPivot('preco')
-                    ->withTimestamps();
+                ->withPivot('preco')
+                ->withTimestamps();
     }
+
 }

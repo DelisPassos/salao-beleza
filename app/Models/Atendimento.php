@@ -18,7 +18,7 @@ class Atendimento extends Model
     ];
 
     protected $casts = [
-        'data' => 'datetime',
+        'data' => 'datetime',  // <-- aqui o cast para Carbon
     ];
 
     public function cliente()
@@ -45,4 +45,3 @@ class Atendimento extends Model
                     ->withTimestamps();
     }
 }
-
