@@ -15,6 +15,8 @@ class ClienteFactory extends Factory
             'nome' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'telefone' => $this->faker->phoneNumber(),
+            'cpf' => $this->faker->unique()->cpf(false), // se usar faker-br
+            'endereco' => $this->faker->address(),
         ];
     }
 }

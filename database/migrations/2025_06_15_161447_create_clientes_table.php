@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('nome');
             $table->string('telefone', 20)->nullable();
             $table->string('email')->nullable()->index();
+            $table->string('cpf', 14)->unique()->nullable()->index(); // CPF formatado: 000.000.000-00
+            $table->string('endereco')->nullable();
             $table->timestamps();
         });
     }

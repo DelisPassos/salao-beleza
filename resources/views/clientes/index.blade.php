@@ -18,12 +18,16 @@
                 />
 
                 {{-- Tabela de clientes --}}
-                <x-tables.table :headers="['Nome', 'Email', 'Telefone', 'Ações']">
+                <x-tables.table :headers="['Nome', 'CPF', 'Email', 'Telefone', 'Endereço', 'Ações']">
                     @forelse($clientes as $cliente)
                         <tr>
                             <td>{{ $cliente->nome }}</td>
+                            <td>{{ $cliente->cpf }}</td>
                             <td>{{ $cliente->email }}</td>
                             <td>{{ $cliente->telefone }}</td>
+                            <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $cliente->endereco }}">
+                                {{ $cliente->endereco }}
+                            </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
                                     {{-- Botão Editar --}}
@@ -48,15 +52,14 @@
                             </td>
                         </tr>
                     @empty
-                        <x-tables.table-empty colspan="4" message="Nenhum cliente cadastrado." />
+                        <x-tables.table-empty colspan="6" message="Nenhum cliente cadastrado." />
                     @endforelse
-                    
                 </x-tables.table>
+
                 {{-- Paginação --}}
                 {{ $clientes->links('components.buttons.pagination-button') }}
             </x-cards.card-t-privado>
-            
+
         </div>
-        
     </div>
 </x-app-layout>

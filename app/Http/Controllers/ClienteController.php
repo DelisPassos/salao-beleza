@@ -34,13 +34,12 @@ class ClienteController extends Controller
         'nome' => 'required|string|max:255',
         'email' => 'nullable|email|max:255',
         'telefone' => 'nullable|string|max:20',
+        'cpf' => 'nullable|string|size:14|unique:clientes,cpf,' . ($cliente->id ?? 'null'),
+        'endereco' => 'nullable|string|max:255',
         ]);
 
-        Cliente::create([
-        'nome' => $request->nome,
-        'email' => $request->email,
-        'telefone' => $request->telefone,
-        ]);
+        Cliente::create($request->only(['nome', 'email', 'telefone', 'cpf', 'endereco']));
+
 
         return redirect()->route('clientes.index')->with('success', 'Cliente cadastrado com sucesso!');
     }
@@ -70,9 +69,12 @@ class ClienteController extends Controller
         'nome' => 'required|string|max:255',
         'email' => 'nullable|email|max:255',
         'telefone' => 'nullable|string|max:20',
+        'cpf' => 'nullable|string|size:14|unique:clientes,cpf,' . ($cliente->id ?? 'null'),
+        'endereco' => 'nullable|string|max:255',
         ]);
 
-        $cliente->update($request->only(['nome', 'email', 'telefone']));
+        $cliente->update($request->only(['nome', 'email', 'telefone', 'cpf', 'endereco']));
+
 
         return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso!');
 
