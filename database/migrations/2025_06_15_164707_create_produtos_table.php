@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProdutosTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,9 @@ class CreateProdutosTable extends Migration
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->text('descricao')->nullable();
-            $table->integer('quantidade');
-            $table->decimal('preco', 10, 2);
+            $table->unsignedInteger('quantidade_estoque');
+            $table->decimal('preco_unitario', 8, 2);
+            $table->foreignId('fornecedor_id')->constrained('fornecedores')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,4 +28,4 @@ class CreateProdutosTable extends Migration
     {
         Schema::dropIfExists('produtos');
     }
-}
+};

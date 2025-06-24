@@ -25,9 +25,10 @@ Route::middleware('auth')->group(function () {
     // Rotas RESTful para as entidades do sistema
     Route::resource('atendimentos', AtendimentoController::class)->middleware(['auth']);
     Route::resource('clientes', ClienteController::class);
-    Route::resource('fornecedores', FornecedorController::class);
+    Route::resource('fornecedores', FornecedorController::class)->parameters(['fornecedores' => 'fornecedor',]);
     Route::resource('produtos', ProdutoController::class);
     Route::resource('servicos', ServicoController::class);
+    
 });
 
 require __DIR__.'/auth.php';
