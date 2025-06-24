@@ -82,7 +82,7 @@
                     @endforelse
                 </x-tables.table>
 
-                {{-- Paginação se necessário --}}
+                {{-- Paginação --}}
                 {{ $atendimentos->links('components.buttons.pagination-button') }}
             </x-cards.card-t-privado>
         </div>
