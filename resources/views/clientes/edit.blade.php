@@ -20,29 +20,66 @@
                 <x-forms.form :action="route('clientes.update', $cliente)" :cancelRoute="route('clientes.index')">
                     @method('PUT')
 
-                    <x-forms.input-with-icon
-                        id="nome"
-                        name="nome"
-                        icon="person"
-                        :value="old('nome', $cliente->nome)"
-                        :error="$errors->first('nome')"
-                    />
+                    <div class="row">
+                        {{-- Nome --}}
+                        <div class="col-md-6">
+                            <x-forms.input-with-icon
+                                id="nome"
+                                name="nome"
+                                icon="person-fill"
+                                :value="old('nome', $cliente->nome)"
+                                :error="$errors->first('nome')"
+                            />
+                        </div>
 
-                    <x-forms.input-with-icon
-                        id="email"
-                        name="email"
-                        icon="envelope"
-                        :value="old('email', $cliente->email)"
-                        :error="$errors->first('email')"
-                    />
+                        {{-- CPF --}}
+                        <div class="col-md-6">
+                            <x-forms.input-with-icon
+                                id="cpf"
+                                name="cpf"
+                                icon="credit-card-2-front-fill"
+                                :value="old('cpf', $cliente->cpf)"
+                                :error="$errors->first('cpf')"
+                            />
+                        </div>
+                    </div>
 
-                    <x-forms.input-with-icon
-                        id="telefone"
-                        name="telefone"
-                        icon="telephone"
-                        :value="old('telefone', $cliente->telefone)"
-                        :error="$errors->first('telefone')"
-                    />
+                    <div class="row">
+                        {{-- Telefone --}}
+                        <div class="col-md-6">
+                            <x-forms.input-with-icon
+                                id="telefone"
+                                name="telefone"
+                                icon="telephone-fill"
+                                :value="old('telefone', $cliente->telefone)"
+                                :error="$errors->first('telefone')"
+                            />
+                        </div>
+
+                        {{-- Email --}}
+                        <div class="col-md-6">
+                            <x-forms.input-with-icon
+                                id="email"
+                                name="email"
+                                icon="envelope-fill"
+                                :value="old('email', $cliente->email)"
+                                :error="$errors->first('email')"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        {{-- Endereço --}}
+                        <div class="col-md-12 mt-3">
+                            <x-forms.input-with-icon
+                                id="endereco"
+                                name="endereco"
+                                icon="geo-alt-fill"
+                                :value="old('endereco', $cliente->endereco)"
+                                :error="$errors->first('endereco')"
+                            />
+                        </div>
+                    </div>
                 </x-forms.form>
 
             </x-cards.card-t-privado>
