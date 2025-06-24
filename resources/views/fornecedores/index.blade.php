@@ -54,7 +54,8 @@
                         <x-tables.table-empty colspan="5" message="Nenhum fornecedor cadastrado." />
                     @endforelse
                 </x-tables.table>
-
+                {{-- Paginação --}}
+                {{ $fornecedores->links('components.buttons.pagination-button') }}
             </x-cards.card-t-privado>
         </div>
     </div>

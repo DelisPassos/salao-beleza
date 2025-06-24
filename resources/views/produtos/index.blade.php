@@ -20,7 +20,7 @@
                 />
 
                 {{-- Tabela de produtos --}}
-                <x-tables.table :headers="['Nome', 'Descrição', 'Quantidade', 'Volume/Peso', 'Preço', 'Total', 'Ações']">
+                <x-tables.table :headers="['Nome', 'Descrição', 'Quantidade', 'Volume/Peso', 'Preço', 'Total', 'Fornecedor', 'Ações']">
                     @forelse($produtos as $produto)
                         <tr>
                             <td>{{ $produto->nome }}</td>
@@ -31,6 +31,7 @@
                             <td>{{ $produto->volume }}</td>
                             <td>R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
                             <td>R$ {{ number_format($produto->quantidade * $produto->preco, 2, ',', '.') }}</td>
+                            <td>{{ $produto->fornecedor->nome ?? '—' }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
 
@@ -56,15 +57,12 @@
                             </td>
                         </tr>
                     @empty
-                        <x-tables.table-empty colspan="7" message="Nenhum produto cadastrado." />
+                        <x-tables.table-empty colspan="8" message="Nenhum produto cadastrado." />
                     @endforelse
                 </x-tables.table>
 
                 {{-- Paginação --}}
-                <div class="mt-4">
-                    {{ $produtos->links() }}
-                </div>
-
+                {{ $produtos->links('components.buttons.pagination-button') }}
             </x-cards.card-t-privado>
         </div>
     </div>

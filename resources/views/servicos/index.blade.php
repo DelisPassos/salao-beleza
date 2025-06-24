@@ -45,6 +45,8 @@
                         <x-tables.table-empty colspan="4" message="Nenhum serviço cadastrado." />
                     @endforelse
                 </x-tables.table>
+                {{-- Paginação --}}
+                {{ $servicos->links('components.buttons.pagination-button') }}
             </x-cards.card-t-privado>
 
         </div>

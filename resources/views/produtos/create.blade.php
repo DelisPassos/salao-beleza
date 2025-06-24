@@ -64,6 +64,21 @@
                         error="{{ $errors->first('preco') }}" 
                     />
 
+                    {{-- Seleção de Fornecedor --}}
+                    <div class="mb-3">
+                        <x-forms.input-label for="fornecedor_id" value="Fornecedor" />
+                        <select name="fornecedor_id" id="fornecedor_id"
+                            class="form-select bg-black text-white border-warning">
+                            <option value="">Selecione um fornecedor</option>
+                            @foreach($fornecedores as $fornecedor)
+                                <option value="{{ $fornecedor->id }}" {{ old('fornecedor_id') == $fornecedor->id ? 'selected' : '' }}>
+                                    {{ $fornecedor->nome }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <x-forms.input-error :messages="$errors->get('fornecedor_id')" class="mt-2 text-warning" />
+                    </div>
+
                 </x-forms.form>
 
             </x-cards.card-t-privado>

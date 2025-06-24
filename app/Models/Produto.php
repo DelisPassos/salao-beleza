@@ -24,4 +24,10 @@ class Produto extends Model
                     ->withPivot('quantidade_usada')
                     ->withTimestamps();
     }
+
+    public function fornecedor()
+    {
+        return $this->belongsTo(Fornecedor::class);
+    }
+
 }

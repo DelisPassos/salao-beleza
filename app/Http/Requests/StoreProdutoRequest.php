@@ -19,6 +19,7 @@ class StoreProdutoRequest extends FormRequest
             'quantidade' => ['required', 'integer', 'min:0'],
             'volume' => ['required', 'string', 'max:20'],
             'preco' => ['required', 'numeric', 'min:0'],
+            'fornecedor_id' => ['required', 'exists:fornecedores,id'],
         ];
     }
 }

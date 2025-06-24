@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use App\Models\Fornecedor;
 use App\Http\Requests\StoreProdutoRequest;
 use App\Http\Requests\UpdateProdutoRequest;
 
@@ -13,8 +14,7 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produtos = Produto::latest()->paginate(10);
-
+        $produtos = Produto::with('fornecedor')->latest()->paginate(10);
         return view('produtos.index', compact('produtos'));
     }
 
@@ -23,7 +23,8 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-        return view('produtos.create');
+        $fornecedores = \App\Models\Fornecedor::orderBy('nome')->get();
+        return view('produtos.create', compact('fornecedores'));
     }
 
     /**
@@ -42,7 +43,8 @@ class ProdutoController extends Controller
      */
     public function edit(Produto $produto)
     {
-        return view('produtos.edit', compact('produto'));
+        $fornecedores = Fornecedor::orderBy('nome')->get();
+        return view('produtos.edit', compact('produto', 'fornecedores'));
     }
 
     /**
