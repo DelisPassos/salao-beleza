@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             ClienteSeeder::class,
             ServicoSeeder::class,
             AtendimentoSeeder::class,
-            // ProdutoSeeder::class,
+            ProdutoSeeder::class,
             FornecedorSeeder::class,
         ]);
     }

@@ -8,14 +8,14 @@
                 {{-- Formulário de edição --}}
                 <x-forms.form :action="route('fornecedores.update', $fornecedor)" :cancelRoute="route('fornecedores.index')">
                     @method('PUT')
-                    
+
                     <div class="row">
                         {{-- Nome --}}
                         <div class="col-md-6">
                             <x-forms.input-with-icon
                                 id="nome"
                                 name="nome"
-                                icon="person"
+                                icon="person-fill"
                                 value="{{ old('nome', $fornecedor->nome) }}"
                                 :error="$errors->first('nome')"
                             />
@@ -39,7 +39,7 @@
                             <x-forms.input-with-icon
                                 id="telefone"
                                 name="telefone"
-                                icon="telephone"
+                                icon="telephone-fill"
                                 value="{{ old('telefone', $fornecedor->telefone) }}"
                                 :error="$errors->first('telefone')"
                             />
@@ -50,24 +50,26 @@
                             <x-forms.input-with-icon
                                 id="email"
                                 name="email"
-                                icon="envelope"
+                                icon="envelope-fill"
                                 value="{{ old('email', $fornecedor->email) }}"
                                 :error="$errors->first('email')"
                             />
                         </div>
+                    </div>
 
-                        {{-- Endereco --}}
+                    <div class="row">
+                        {{-- Endereço --}}
                         <div class="col-md-12">
                             <x-forms.input-with-icon
                                 id="endereco"
                                 name="endereco"
-                                icon="geo-alt"
+                                icon="geo-alt-fill"
                                 value="{{ old('endereco', $fornecedor->endereco) }}"
                                 :error="$errors->first('endereco')"
                             />
                         </div>
-
                     </div>
+
                 </x-forms.form>
 
             </x-cards.card-t-privado>

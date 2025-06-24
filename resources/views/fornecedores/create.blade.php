@@ -13,7 +13,7 @@
                             <x-forms.input-with-icon
                                 id="nome"
                                 name="nome"
-                                icon="person"
+                                icon="person-fill"
                                 value="{{ old('nome') }}"
                                 :error="$errors->first('nome')"
                             />
@@ -24,7 +24,7 @@
                             <x-forms.input-with-icon
                                 id="cnpj"
                                 name="cnpj"
-                                icon="file-earmark-text"
+                                icon="file-earmark-text-fill"
                                 value="{{ old('cnpj') }}"
                                 :error="$errors->first('cnpj')"
                             />
@@ -37,7 +37,7 @@
                             <x-forms.input-with-icon
                                 id="telefone"
                                 name="telefone"
-                                icon="telephone"
+                                icon="telephone-fill"
                                 value="{{ old('telefone') }}"
                                 :error="$errors->first('telefone')"
                             />
@@ -48,22 +48,22 @@
                             <x-forms.input-with-icon
                                 id="email"
                                 name="email"
-                                icon="envelope"
+                                icon="envelope-fill"
                                 value="{{ old('email') }}"
                                 :error="$errors->first('email')"
                             />
                         </div>
 
-                        <div class="col-md-12">
+                        {{-- Endereço --}}
+                        <div class="col-md-12 mt-3">
                             <x-forms.input-with-icon
                                 id="endereco"
                                 name="endereco"
-                                icon="geo-alt"
+                                icon="geo-alt-fill"
                                 value="{{ old('endereco') }}"
                                 :error="$errors->first('endereco')"
                             />
                         </div>
-
                     </div>
                 </x-forms.form>
 

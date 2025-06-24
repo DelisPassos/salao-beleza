@@ -13,9 +13,9 @@ class Produto extends Model
         'nome',
         'descricao',
         'quantidade',
-        'volume_peso',
+        'volume',
         'preco',
-        'total',
+        'fornecedor_id'
     ];
 
     public function atendimentos()
