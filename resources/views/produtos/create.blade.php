@@ -1,57 +1,43 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Cadastrar Produto
-        </h2>
-    </x-slot>
+    <x-layout.header title="Cadastrar Produto" />
 
-    <div class="py-5">
+    <div class="py-5 bg-black text-white">
         <div class="container">
-            <div class="bg-dark bg-opacity-75 text-white rounded shadow p-5">
+            <x-cards.card-t-privado>
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $erro)
-                                <li>{{ $erro }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <form action="{{ route('produtos.store') }}" method="POST">
-                    @csrf
-
+                <x-forms.form :action="route('produtos.store')" :cancelRoute="route('produtos.index')">
                     <div class="mb-3">
-                        <label for="nome" class="form-label">Nome do Produto</label>
-                        <input type="text" name="nome" id="nome" class="form-control bg-light text-dark border-warning" required>
+                        <x-forms.input-label for="nome" value="Nome do Produto" />
+                        <input type="text" name="nome" id="nome" class="form-control bg-black text-white border-warning" value="{{ old('nome') }}" required>
+                        <x-forms.input-error :messages="$errors->get('nome')" class="mt-2 text-warning" />
                     </div>
 
                     <div class="mb-3">
-                        <label for="descricao" class="form-label">Descrição</label>
-                        <textarea name="descricao" id="descricao" class="form-control bg-light text-dark border-warning" rows="2"></textarea>
+                        <x-forms.input-label for="descricao" value="Descrição" />
+                        <textarea name="descricao" id="descricao" class="form-control bg-black text-white border-warning" rows="2">{{ old('descricao') }}</textarea>
+                        <x-forms.input-error :messages="$errors->get('descricao')" class="mt-2 text-warning" />
                     </div>
 
                     <div class="mb-3">
-                        <label for="quantidade" class="form-label">Quantidade</label>
-                        <input type="number" name="quantidade" id="quantidade" class="form-control bg-light text-dark border-warning" required>
+                        <x-forms.input-label for="quantidade" value="Quantidade" />
+                        <input type="number" name="quantidade" id="quantidade" class="form-control bg-black text-white border-warning" value="{{ old('quantidade') }}" required>
+                        <x-forms.input-error :messages="$errors->get('quantidade')" class="mt-2 text-warning" />
                     </div>
 
                     <div class="mb-3">
-                        <label for="volume" class="form-label">Volume/Peso</label>
-                        <input type="number" name="volume" id="volume" class="form-control bg-light text-dark border-warning" required>
+                        <x-forms.input-label for="volume" value="Volume/Peso" />
+                        <input type="text" name="volume" id="volume" class="form-control bg-black text-white border-warning" value="{{ old('volume') }}" required>
+                        <x-forms.input-error :messages="$errors->get('volume')" class="mt-2 text-warning" />
                     </div>
 
                     <div class="mb-3">
-                        <label for="preco" class="form-label">Preço (R$)</label>
-                        <input type="number" step="0.01" name="preco" id="preco" class="form-control bg-light text-dark border-warning" required>
+                        <x-forms.input-label for="preco" value="Preço (R$)" />
+                        <input type="number" step="0.01" name="preco" id="preco" class="form-control bg-black text-white border-warning" value="{{ old('preco') }}" required>
+                        <x-forms.input-error :messages="$errors->get('preco')" class="mt-2 text-warning" />
                     </div>
+                </x-forms.form>
 
-                    <button type="submit" class="btn btn-sm btn-outline-warning">Salvar</button>
-                    <a href="{{ route('produtos.index') }}" class="btn btn-sm btn-outline-light">Voltar</a>
-                </form>
-
-            </div>
+            </x-cards.card-t-privado>
         </div>
     </div>
 </x-app-layout>

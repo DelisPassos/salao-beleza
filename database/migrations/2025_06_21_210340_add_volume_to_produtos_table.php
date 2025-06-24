@@ -6,25 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::table('produtos', function (Blueprint $table) {
-            $table->string('volume')->nullable();
-            //
+            $table->string('volume')->nullable()->change();
+            
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         Schema::table('produtos', function (Blueprint $table) {
-            $table->dropColumn('volume');
-            //
+            $table->decimal('volume', 8, 2)->nullable()->change();
+            
         });
     }
 };
