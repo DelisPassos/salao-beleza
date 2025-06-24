@@ -11,11 +11,13 @@
                 @endif
 
                 {{-- Botão de criação --}}
-                <x-buttons.create-button
-                    href="{{ route('fornecedores.create') }}"
-                    icon="person-plus"
-                    label="Novo Fornecedor"
-                />
+                <div class="mb-3">
+                    <x-buttons.create-button
+                        href="{{ route('fornecedores.create') }}"
+                        icon="person-plus"
+                        label="Novo Fornecedor"
+                    />
+                </div>
 
                 {{-- Tabela --}}
                 <x-tables.table :headers="['Nome', 'CNPJ', 'Telefone', 'E-mail', 'Ações']">
@@ -23,8 +25,8 @@
                         <tr>
                             <td>{{ $fornecedor->nome }}</td>
                             <td>{{ $fornecedor->cnpj }}</td>
-                            <td>{{ $fornecedor->telefone ?? '—' }}</td>
-                            <td>{{ $fornecedor->email ?? '—' }}</td>
+                            <td>{{ $fornecedor->telefone ?: '—' }}</td>
+                            <td>{{ $fornecedor->email ?: '—' }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
                                     {{-- Botão Editar --}}
