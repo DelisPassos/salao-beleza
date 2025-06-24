@@ -18,25 +18,50 @@
                 />
 
                 {{-- Tabela de atendimentos --}}
-                <x-tables.table :headers="['Cliente', 'Serviços', 'Data', 'Valor', 'Ações']">
+                <x-tables.table :headers="['Cliente', 'Profissional', 'Serviços', 'Produtos', 'Data', 'Valor', 'Ações']">
                     @forelse($atendimentos as $atendimento)
                         <tr>
+                            {{-- Cliente --}}
                             <td>{{ $atendimento->cliente->nome }}</td>
+
+                            {{-- Profissional --}}
+                            <td>{{ $atendimento->profissional?->name ?? '—' }}</td>
+
+                            {{-- Serviços --}}
                             <td>
                                 @foreach ($atendimento->servicos as $servico)
-                                    <span class="badge bg-warning text-black me-1">{{ $servico->nome }}</span>
+                                    <div class="small">
+                                        <i class="bi bi-scissors me-1 text-warning"></i>
+                                        {{ $servico->nome }} - R$ {{ number_format($servico->pivot->preco, 2, ',', '.') }}
+                                    </div>
                                 @endforeach
                             </td>
+
+                            {{-- Produtos --}}
+                            <td>
+                                @forelse ($atendimento->produtos as $produto)
+                                    <div class="small">
+                                        <i class="bi bi-box me-1 text-warning"></i>
+                                        {{ $produto->nome }} ({{ $produto->pivot->quantidade_usada }})
+                                    </div>
+                                @empty
+                                    —
+                                @endforelse
+                            </td>
+
+                            {{-- Data --}}
                             <td>{{ $atendimento->data->format('d/m/Y H:i') }}</td>
+
+                            {{-- Valor pago --}}
                             <td>R$ {{ number_format($atendimento->valor_pago, 2, ',', '.') }}</td>
+
+                            {{-- Ações --}}
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    {{-- Botão Editar --}}
                                     <a href="{{ route('atendimentos.edit', $atendimento) }}">
                                         <x-buttons.edit-button>Editar</x-buttons.edit-button>
                                     </a>
 
-                                    {{-- Botão Excluir --}}
                                     <x-buttons.delete-button 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#modal-delete-{{ $atendimento->id }}">
@@ -53,11 +78,13 @@
                             </td>
                         </tr>
                     @empty
-                        <x-tables.table-empty colspan="5" message="Nenhum atendimento registrado." />
+                        <x-tables.table-empty colspan="7" message="Nenhum atendimento registrado." />
                     @endforelse
                 </x-tables.table>
-            </x-cards.card-t-privado>
 
+                {{-- Paginação se necessário --}}
+                {{ $atendimentos->links('components.buttons.pagination-button') }}
+            </x-cards.card-t-privado>
         </div>
     </div>
 </x-app-layout>

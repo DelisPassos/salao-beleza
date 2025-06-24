@@ -34,14 +34,6 @@ class FornecedorController extends Controller
                          ->with('success', 'Fornecedor cadastrado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Fornecedor $fornecedor)
-    {
-        //
-    }
-
     public function edit(Fornecedor $fornecedor)
     {
         return view('fornecedores.edit', compact('fornecedor'));

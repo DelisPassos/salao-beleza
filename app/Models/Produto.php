@@ -2,16 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Produto extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nome',
+        'descricao',
+        'quantidade',
+        'volume_peso',
+        'preco',
+        'total',
+    ];
 
-    protected $fillable = ['nome', 'descricao', 'quantidade', 'volume', 'preco'];
+    public function atendimentos()
+    {
+        return $this->belongsToMany(Atendimento::class, 'atendimento_produto')
+                    ->withPivot('quantidade_usada')
+                    ->withTimestamps();
+    }
 }
-
-
-

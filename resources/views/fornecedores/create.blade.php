@@ -53,6 +53,17 @@
                                 :error="$errors->first('email')"
                             />
                         </div>
+
+                        <div class="col-md-12">
+                            <x-forms.input-with-icon
+                                id="endereco"
+                                name="endereco"
+                                icon="geo-alt"
+                                value="{{ old('endereco') }}"
+                                :error="$errors->first('endereco')"
+                            />
+                        </div>
+
                     </div>
                 </x-forms.form>
 

@@ -50,10 +50,12 @@
                     @empty
                         <x-tables.table-empty colspan="4" message="Nenhum cliente cadastrado." />
                     @endforelse
+                    
                 </x-tables.table>
-
+                {{ $clientes->links('components.buttons.pagination-button') }}
             </x-cards.card-t-privado>
-
+            
         </div>
+        
     </div>
 </x-app-layout>
