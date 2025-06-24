@@ -62,7 +62,7 @@ php artisan key:generate
 php artisan migrate
 
 # (Opcional) Rodar seeders com dados de teste
-php artisan db:seed --class=TestDataSeeder
+php artisan db:seed 
 
 # 9. Iniciar o servidor local
 php artisan serve
