@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nome');
             $table->unsignedInteger('quantidade_estoque');
             $table->decimal('preco_unitario', 8, 2);
-            $table->foreignId('fornecedor_id')->constrained()->onDelete('cascade');
+            $table->foreignId('fornecedor_id')->constrained('fornecedores')->onDelete('cascade');
             $table->timestamps();
         });
     }
