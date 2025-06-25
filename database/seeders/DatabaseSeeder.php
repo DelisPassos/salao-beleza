@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('senha123'), // senha segura para testes locais
         ]);
 
+        \App\Models\User::factory()->count(10)->profissional()->create();
+
+
         // Chama os seeders das entidades principais
         $this->call([
             ClienteSeeder::class,
@@ -28,5 +31,6 @@ class DatabaseSeeder extends Seeder
             ProdutoSeeder::class,
             FornecedorSeeder::class,
         ]);
+
     }
 }

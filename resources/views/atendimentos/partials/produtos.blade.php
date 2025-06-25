@@ -8,7 +8,7 @@
         @foreach($oldProdutos as $produtoData)
             <div class="row align-items-center mb-2">
                 <div class="col-md-7">
-                    <select name="produtos[{{ $index }}][id]" class="form-select bg-black text-white border-warning">
+                    <select name="produtos[{{ $index }}][id]" class="form-select bg-black text-white border-white">
                         @foreach ($produtos as $produto)
                             <option value="{{ $produto->id }}" {{ $produto->id == $produtoData['id'] ? 'selected' : '' }}>
                                 {{ $produto->nome }}
@@ -20,7 +20,7 @@
                     <input type="number"
                            name="produtos[{{ $index }}][quantidade_usada]"
                            min="1"
-                           class="form-control bg-black text-white border-warning"
+                           class="form-control bg-black text-white border-white"
                            placeholder="Quantidade"
                            value="{{ $produtoData['quantidade_usada'] }}">
                 </div>
@@ -46,7 +46,7 @@
                     const html = `
                         <div class="row align-items-center mb-2">
                             <div class="col-md-7">
-                                <select name="produtos[${produtosIndex}][id]" class="form-select bg-black text-white border-warning">
+                                <select name="produtos[${produtosIndex}][id]" class="form-select bg-black text-white border-white">
                                     @foreach ($produtos as $produto)
                                         <option value="{{ $produto->id }}">{{ $produto->nome }}</option>
                                     @endforeach
@@ -54,7 +54,7 @@
                             </div>
                             <div class="col-md-4">
                                 <input type="number" name="produtos[${produtosIndex}][quantidade_usada]" min="1"
-                                    class="form-control bg-black text-white border-warning" placeholder="Quantidade">
+                                    class="form-control bg-black text-white border-white" placeholder="Quantidade">
                             </div>
                             <div class="col-md-1">
                                 <button type="button" class="btn btn-danger btn-sm remove-produto">×</button>
