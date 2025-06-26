@@ -10,10 +10,20 @@ class ProdutoFactory extends Factory
 {
     protected $model = Produto::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
-            'nome' => $this->faker->word() . ' ' . $this->faker->unique()->numberBetween(1, 9999),
+            'nome' => $this->faker->randomElement([
+                    'Shampoo', 'Condicionador', 'Máscara Capilar', 'Óleo Reparador',
+                    'Leave-in', 'Spray Fixador', 'Creme de Pentear', 'Ampola de Hidratação',
+                    'Secador Profissional', 'Chapinha Titanium', 'Modelador de Cachos'
+                ]) . ' ' .
+                $this->faker->randomElement([
+                    'Liso Perfeito', 'Brilho Intenso', 'Nutrição Total', 'Reconstrução Profunda',
+                    'Cachos Definidos', 'Hidratação Máxima', 'Color Protect', 'Anti-Frizz'
+                ]) . ' ' .
+                $this->faker->unique()->randomNumber(3),
+
             'descricao' => $this->faker->sentence(6),
             'quantidade' => $this->faker->numberBetween(10, 200),
             'volume' => $this->faker->randomElement(['100ml', '250ml', '500ml', '1L', '200g', '500g']),
