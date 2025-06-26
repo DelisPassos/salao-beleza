@@ -36,7 +36,7 @@
     name="data"
     type="datetime-local"
     icon="calendar-event"
-    value="{{ old('data', optional($atendimento?->data)->format('Y-m-d\TH:i')) }}"
+    value="{{ old('data', optional($atendimento?->data)->format('Y-m-d\TH:i') ?? now()->format('Y-m-d\TH:i')) }}"
     :error="$errors->first('data')"
 />
 
