@@ -15,7 +15,7 @@ class StoreAtendimentoRequest extends FormRequest
     {
         return [
             'cliente_id' => ['required', 'exists:clientes,id'],
-            'profissional_id' => ['nullable', 'exists:users,id'],
+            'profissional_id' => ['required', 'exists:users,id'],
             'data' => ['required', 'date'],
             'valor_pago' => ['required', 'numeric', 'min:0'],
             'observacoes' => ['nullable', 'string'],
@@ -24,7 +24,7 @@ class StoreAtendimentoRequest extends FormRequest
             'servicos.*.id' => ['required', 'exists:servicos,id'],
             'servicos.*.preco' => ['required', 'numeric', 'min:0'],
 
-            'produtos' => ['nullable', 'array'],
+            'produtos' => ['required', 'array'],
             'produtos.*.id' => ['required', 'exists:produtos,id'],
             'produtos.*.quantidade_usada' => ['required', 'integer', 'min:1'],
         ];
