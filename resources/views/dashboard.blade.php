@@ -49,7 +49,6 @@
             </div>
         </div>
 
-
         {{-- Estatísticas do Mês --}}
         <h4 class="text-white fw-bold mb-3">Estatísticas do Mês</h4>
         <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
@@ -94,8 +93,8 @@
             </div>
         </div>
 
-        {{-- Outras Informações --}}
-        <h4 class="text-white fw-bold mb-3">Outras Informações</h4>
+        {{-- Indicadores Gerais --}}
+        <h4 class="text-white fw-bold mb-3">Indicadores Gerais</h4>
         <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
             {{-- Serviço mais realizado --}}
             <div class="col">
@@ -126,7 +125,11 @@
                     </div>
                 </x-cards.card-t-privado>
             </div>
+        </div>
 
+        {{-- Estoque --}}
+        <h4 class="text-white fw-bold mb-3">Estoque</h4>
+        <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
             {{-- Produtos com estoque baixo --}}
             <div class="col">
                 <x-cards.card-t-privado class="h-100">
@@ -157,30 +160,30 @@
                 </x-cards.card-t-privado>
             </div>
         </div>
-        {{-- Produtos com Estoque Baixo (detalhado) --}}
-<h4 class="text-white fw-bold mb-3">Produtos com Estoque Baixo</h4>
-<div class="table-responsive mb-4">
-    <table class="table table-dark table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Produto</th>
-                <th>Quantidade em Estoque</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($estoqueBaixoDetalhado as $produto)
-                <tr>
-                    <td>{{ $produto->nome }}</td>
-                    <td>{{ $produto->quantidade }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="2">Nenhum produto com estoque baixo encontrado.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
 
+        {{-- Produtos com Estoque Baixo (detalhado) --}}
+        <h4 class="text-white fw-bold mb-3">Produtos com Estoque Baixo</h4>
+        <div class="table-responsive mb-4">
+            <table class="table table-dark table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade em Estoque</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($estoqueBaixoDetalhado as $produto)
+                        <tr>
+                            <td>{{ $produto->nome }}</td>
+                            <td>{{ $produto->quantidade }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="2">Nenhum produto com estoque baixo encontrado.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </x-app-layout>

@@ -12,7 +12,9 @@ class AtendimentoController extends Controller
 {
     public function index()
     {
-        $atendimentos = Atendimento::with(['cliente', 'servicos'])->latest()->paginate(10);
+        $atendimentos = Atendimento::with(['cliente', 'servicos'])
+            ->orderByDesc('data') // Ordenando pela data do atendimento, não por created_at
+            ->paginate(10);
 
         return view('atendimentos.index', compact('atendimentos'));
     }
@@ -98,6 +100,7 @@ class AtendimentoController extends Controller
             }
             $atendimento->servicos()->sync($syncServicos);
 
+            // Repor estoque dos produtos antigos
             foreach ($atendimento->produtos as $produto) {
                 $produto->increment('quantidade', $produto->pivot->quantidade_usada);
             }
@@ -129,7 +132,6 @@ class AtendimentoController extends Controller
     public function destroy(Atendimento $atendimento)
     {
         DB::transaction(function () use ($atendimento) {
-            // Repor estoque dos produtos usados
             foreach ($atendimento->produtos as $produto) {
                 $produto->increment('quantidade', $produto->pivot->quantidade_usada);
             }

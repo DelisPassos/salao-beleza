@@ -51,7 +51,7 @@ npm install
 npm run build      # Ou npm run dev  Para desenvolvimento
 
 # 5. Copiar o arquivo de ambiente
-cp .env.example .env
+copy .env.example .env
 
 # 6. Gerar chave da aplicação
 php artisan key:generate
