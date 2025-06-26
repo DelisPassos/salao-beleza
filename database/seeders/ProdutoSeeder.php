@@ -10,13 +10,16 @@ class ProdutoSeeder extends Seeder
 {
     public function run()
     {
-        // Garante que exista ao menos um fornecedor
+        // Garante que existam fornecedores
         if (Fornecedor::count() === 0) {
-            \App\Models\Fornecedor::factory()->count(5)->create();
+            Fornecedor::factory()->count(5)->create();
         }
 
-        Produto::factory()->count(30)->create([
-            'fornecedor_id' => Fornecedor::inRandomOrder()->first()->id,
-        ]);
+        // Cria 30 produtos com fornecedores variados
+        Produto::factory()->count(30)->make()->each(function ($produto) {
+            $produto->fornecedor_id = Fornecedor::inRandomOrder()->first()->id;
+            $produto->save();
+        });
     }
+
 }

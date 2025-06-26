@@ -31,7 +31,6 @@
                             <td>
                                 @foreach ($atendimento->servicos as $servico)
                                     <div class="small">
-                                        <i class="bi bi-scissors me-1 text-warning"></i>
                                         {{ $servico->nome }} - R$ {{ number_format($servico->pivot->preco, 2, ',', '.') }}
                                     </div>
                                 @endforeach
@@ -41,7 +40,6 @@
                             <td>
                                 @forelse ($atendimento->produtos as $produto)
                                     <div class="small">
-                                        <i class="bi bi-box me-1 text-warning"></i>
                                         {{ $produto->nome }} ({{ $produto->pivot->quantidade_usada }})
                                     </div>
                                 @empty

@@ -5,38 +5,48 @@ namespace Database\Seeders;
 use App\Models\Atendimento;
 use App\Models\Servico;
 use App\Models\Cliente;
+use App\Models\User;
+use App\Models\Produto;
 use Illuminate\Database\Seeder;
 
 class AtendimentoSeeder extends Seeder
 {
     public function run(): void
     {
-        // Garante que existam serviços e clientes no banco
         $servicos = Servico::all();
         $clientes = Cliente::all();
+        $profissionais = User::all();
+        $produtos = Produto::where('quantidade', '>', 0)->get();
 
-        // Se não houver dados, encerra o seeder
-        if ($servicos->isEmpty() || $clientes->isEmpty()) {
-            $this->command->warn('Clientes ou serviços não encontrados. Execute os seeders correspondentes primeiro.');
+        if ($servicos->isEmpty() || $clientes->isEmpty() || $profissionais->isEmpty() || $produtos->isEmpty()) {
+            $this->command->warn('Clientes, serviços, profissionais ou produtos não encontrados.');
             return;
         }
 
         Atendimento::factory()
             ->count(20)
-            ->make() // make() ao invés de create() para controlar os dados antes de salvar
-            ->each(function ($atendimento) use ($clientes, $servicos) {
+            ->make()
+            ->each(function ($atendimento) use ($clientes, $servicos, $profissionais, $produtos) {
                 $atendimento->cliente_id = $clientes->random()->id;
-                $atendimento->valor_pago = 0; // será somado abaixo
+                $atendimento->profissional_id = $profissionais->random()->id;
+                $atendimento->valor_pago = 0;
                 $atendimento->save();
 
-                // Seleciona de 1 a 3 serviços aleatórios
                 $servicosSelecionados = $servicos->random(rand(1, 3));
-
                 foreach ($servicosSelecionados as $servico) {
                     $atendimento->servicos()->attach($servico->id, [
                         'preco' => $servico->preco,
                     ]);
                     $atendimento->valor_pago += $servico->preco;
+                }
+
+                $produtosSelecionados = $produtos->random(rand(1, 2));
+                foreach ($produtosSelecionados as $produto) {
+                    $quantidadeUsada = rand(1, min(3, $produto->quantidade));
+                    $atendimento->produtos()->attach($produto->id, [
+                        'quantidade_usada' => $quantidadeUsada,
+                    ]);
+                    $produto->decrement('quantidade', $quantidadeUsada);
                 }
 
                 $atendimento->save();
