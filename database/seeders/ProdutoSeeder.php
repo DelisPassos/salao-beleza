@@ -15,7 +15,7 @@ class ProdutoSeeder extends Seeder
             \App\Models\Fornecedor::factory()->count(5)->create();
         }
 
-        Produto::factory()->count(10)->create([
+        Produto::factory()->count(30)->create([
             'fornecedor_id' => Fornecedor::inRandomOrder()->first()->id,
         ]);
     }

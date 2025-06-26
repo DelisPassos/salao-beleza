@@ -17,6 +17,13 @@ class DashboardController extends Controller
         $inicioMes = Carbon::now()->startOfMonth();
         $fimMes = Carbon::now()->endOfMonth();
 
+        // Custo com produtos usados hoje (preço unitário * quantidade usada)
+        $custoProdutosDia = DB::table('atendimento_produto')
+            ->join('produtos', 'produtos.id', '=', 'atendimento_produto.produto_id')
+            ->whereDate('atendimento_produto.created_at', today())
+            ->selectRaw('SUM(produtos.preco * atendimento_produto.quantidade_usada) as total_custo')
+            ->value('total_custo') ?? 0;
+
         // Receita total do mês (valor pago pelos atendimentos)
         $receitaMensal = Atendimento::whereBetween('created_at', [$inicioMes, $fimMes])->sum('valor_pago');
 
@@ -34,8 +41,6 @@ class DashboardController extends Controller
             ->where('quantidade', '<', 5)
             ->orderBy('quantidade')
             ->get();
-
-
 
         return view('dashboard', [
             'vendasHoje' => Atendimento::whereDate('created_at', today())->sum('valor_pago'),
@@ -70,6 +75,9 @@ class DashboardController extends Controller
                 ->value('nome') ?? 'Nenhum',
             
             'estoqueBaixoDetalhado' => $estoqueBaixoDetalhado,
+
+            'custoProdutosDia' => $custoProdutosDia,
+
 
         ]);
 
