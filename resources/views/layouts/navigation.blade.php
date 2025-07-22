@@ -67,18 +67,18 @@
                             </span>
                         </x-slot>
 
-                        {{-- Conteúdo do dropdown --}}
+                        {{-- Link para perfil --}}
                         <x-buttons.dropdown-link href="{{ route('profile.edit') }}">
                             <i class="bi bi-gear me-1"></i> Perfil
                         </x-buttons.dropdown-link>
 
+                        {{-- Botão de logout (funcional) --}}
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-buttons.dropdown-link as="button">
+                            <button type="submit" class="btn btn-outline-warning w-100 text-start d-flex align-items-center btn-hover-warning'">
                                 <i class="bi bi-box-arrow-right me-1"></i> Sair
-                            </x-buttons.dropdown-link>
+                            </button>
                         </form>
-
                     </x-dropdowns.dropdown>
                 </li>
             </ul>
