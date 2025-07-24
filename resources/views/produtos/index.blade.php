@@ -33,8 +33,8 @@
                             <td>R$ {{ number_format($produto->quantidade * $produto->preco, 2, ',', '.') }}</td>
                             <td>{{ $produto->fornecedor->nome ?? '—' }}</td>
                             <td class="text-center">
-                                <div class="d-flex justify-content-center gap-2">
 
+                                <div class="d-flex flex-wrap justify-content-center gap-2">
                                     {{-- Botão Editar --}}
                                     <a href="{{ route('produtos.edit', $produto->id) }}">
                                         <x-buttons.edit-button>Editar</x-buttons.edit-button>

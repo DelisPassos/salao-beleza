@@ -28,7 +28,7 @@
                             <td>{{ $fornecedor->telefone ?: '—' }}</td>
                             <td>{{ $fornecedor->email ?: '—' }}</td>
                             <td class="text-center">
-                                <div class="d-flex justify-content-center gap-2">
+                                <div class="d-flex flex-wrap justify-content-center gap-2">
                                     {{-- Botão Editar --}}
                                     <a href="{{ route('fornecedores.edit', $fornecedor) }}">
                                         <x-buttons.edit-button>Editar</x-buttons.edit-button>
