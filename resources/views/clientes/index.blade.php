@@ -3,8 +3,8 @@
 
     <div class="py-5 bg-black text-white">
         <div class="container">
-
             <x-cards.card-t-privado>
+
                 {{-- Alerta de sucesso --}}
                 @if(session('success'))
                     <x-alerts.alert type="success" :message="session('success')" class="mb-4" />
@@ -17,7 +17,7 @@
                     label="Novo Cliente" 
                 />
 
-                {{-- Tabela de clientes --}}
+                {{-- Tabela responsiva --}}
                 <x-tables.table :headers="['Nome', 'CPF', 'Email', 'Telefone', 'Endereço', 'Ações']">
                     @forelse($clientes as $cliente)
                         <tr>
@@ -25,11 +25,13 @@
                             <td>{{ $cliente->cpf }}</td>
                             <td>{{ $cliente->email }}</td>
                             <td>{{ $cliente->telefone }}</td>
-                            <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $cliente->endereco }}">
-                                {{ $cliente->endereco }}
+                            <td>
+                                <div class="text-truncate" style="max-width: 150px;" title="{{ $cliente->endereco }}">
+                                    {{ $cliente->endereco }}
+                                </div>
                             </td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center gap-2">
+                            <td>
+                                <div class="d-flex flex-wrap justify-content-center gap-2">
                                     {{-- Botão Editar --}}
                                     <a href="{{ route('clientes.edit', $cliente) }}">
                                         <x-buttons.edit-button>Editar</x-buttons.edit-button>
@@ -57,9 +59,10 @@
                 </x-tables.table>
 
                 {{-- Paginação --}}
-                {{ $clientes->links('components.buttons.pagination-button') }}
+                <div class="mt-3">
+                    {{ $clientes->links('components.buttons.pagination-button') }}
+                </div>
             </x-cards.card-t-privado>
-
         </div>
     </div>
 </x-app-layout>
