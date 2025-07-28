@@ -17,52 +17,69 @@
                     label="Novo Cliente" 
                 />
 
-                {{-- Tabela responsiva --}}
-                <x-tables.table :headers="['Nome', 'CPF', 'Email', 'Telefone', 'Endereço', 'Ações']">
-                    @forelse($clientes as $cliente)
-                        <tr>
-                            <td>{{ $cliente->nome }}</td>
-                            <td>{{ $cliente->cpf }}</td>
-                            <td>{{ $cliente->email }}</td>
-                            <td>{{ $cliente->telefone }}</td>
-                            <td>
-                                <div class="text-truncate" style="max-width: 150px;" title="{{ $cliente->endereco }}">
-                                    {{ $cliente->endereco }}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-wrap justify-content-center gap-2">
-                                    {{-- Botão Editar --}}
-                                    <a href="{{ route('clientes.edit', $cliente) }}">
-                                        <x-buttons.edit-button>Editar</x-buttons.edit-button>
-                                    </a>
+                {{-- TABELA responsiva para md+ --}}
+                <div class="d-none d-md-block">
+                    <x-tables.table :headers="['Nome', 'CPF', 'Email', 'Telefone', 'Endereço', 'Ações']">
+                        @forelse($clientes as $cliente)
+                            <tr>
+                                <td>{{ $cliente->nome }}</td>
+                                <td><span class="small">{{ $cliente->cpf }}</span></td>
+                                <td>{{ $cliente->email }}</td>
+                                <td><span class="small">{{ $cliente->telefone }}</span></td>
+                                <td>
+                                    <span class="small" title="{{ $cliente->endereco }}">
+                                        {{ Str::limit($cliente->endereco, 40) }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <x-tables.actions 
+                                        :editRoute="route('clientes.edit', $cliente)"
+                                        :deleteRoute="route('clientes.destroy', $cliente)"
+                                        :modalId="'modal-delete-' . $cliente->id"
+                                        :itemName="'o cliente ' . $cliente->nome"
+                                    />
+                                </td>
+                            </tr>
+                        @empty
+                            <x-tables.table-empty colspan="6" message="Nenhum cliente cadastrado." />
+                        @endforelse
+                    </x-tables.table>
+                </div>
 
-                                    {{-- Botão Excluir --}}
-                                    <x-buttons.delete-button 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#modal-delete-{{ $cliente->id }}">
-                                        Excluir
-                                    </x-buttons.delete-button>
-                                </div>
-
-                                {{-- Modal de Confirmação --}}
-                                <x-modals.confirm-delete 
-                                    id="modal-delete-{{ $cliente->id }}"
-                                    route="{{ route('clientes.destroy', $cliente) }}"
-                                    :item="$cliente->nome"
-                                />
-                            </td>
-                        </tr>
-                    @empty
-                        <x-tables.table-empty colspan="6" message="Nenhum cliente cadastrado." />
-                    @endforelse
-                </x-tables.table>
+                {{-- CARDS responsivos para sm --}}
+                <div class="d-block d-md-none">
+                    <x-tables.card-view 
+                        :items="$clientes"
+                        :fields="[
+                            'Nome' => 'nome',
+                            'CPF' => 'cpf',
+                            'Email' => 'email',
+                            'Telefone' => 'telefone',
+                            'Endereço' => fn($c) => Str::limit($c->endereco, 40),
+                        ]"
+                        :actions="fn($c) => view('components.tables.actions', [
+                            'editRoute' => route('clientes.edit', $c),
+                            'deleteRoute' => route('clientes.destroy', $c),
+                            'modalId' => 'modal-delete-' . $c->id,
+                            'itemName' => 'o cliente ' . $c->nome,
+                        ])->render()"
+                    />
+                </div>
 
                 {{-- Paginação --}}
                 <div class="mt-3">
                     {{ $clientes->links('components.buttons.pagination-button') }}
                 </div>
             </x-cards.card-t-privado>
+
+            {{-- Modais de confirmação --}}
+            @foreach ($clientes as $cliente)
+                <x-modals.confirm-delete 
+                    :id="'modal-delete-' . $cliente->id"
+                    :route="route('clientes.destroy', $cliente)"
+                    :item="'o cliente ' . $cliente->nome"
+                />
+            @endforeach
         </div>
     </div>
 </x-app-layout>

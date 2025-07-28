@@ -52,17 +52,6 @@
     readonly
 />
 
-<div class="mb-3">
-    <x-forms.input-label for="observacoes" value="Observações" />
-    <textarea
-        name="observacoes"
-        id="observacoes"
-        rows="3"
-        class="form-control bg-black text-white border-white"
-    >{{ old('observacoes', $atendimento->observacoes ?? '') }}</textarea>
-    <x-forms.input-error :messages="$errors->get('observacoes')" class="mt-2 text-white" />
-</div>
-
 {{-- Serviços --}}
 @include('atendimentos.partials.servicos', ['servicos' => $servicos, 'oldServicos' => $oldServicos])
 
