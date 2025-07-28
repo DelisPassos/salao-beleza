@@ -3,8 +3,6 @@
 
     <div class="py-5 bg-black text-white">
         <div class="container">
-
-            {{-- Cartão padrão privado --}}
             <x-cards.card-t-privado>
 
                 {{-- Alerta de sucesso --}}
@@ -19,51 +17,70 @@
                     label="Novo Produto" 
                 />
 
-                {{-- Tabela de produtos --}}
-                <x-tables.table :headers="['Nome', 'Descrição', 'Quantidade', 'Volume/Peso', 'Preço', 'Total', 'Fornecedor', 'Ações']">
-                    @forelse($produtos as $produto)
-                        <tr>
-                            <td>{{ $produto->nome }}</td>
-                            <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $produto->descricao }}">
-                                {{ $produto->descricao }}
-                            </td>
-                            <td>{{ $produto->quantidade }}</td>
-                            <td>{{ $produto->volume }}</td>
-                            <td>R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
-                            <td>R$ {{ number_format($produto->quantidade * $produto->preco, 2, ',', '.') }}</td>
-                            <td>{{ $produto->fornecedor->nome ?? '—' }}</td>
-                            <td class="text-center">
-
-                                <div class="d-flex flex-wrap justify-content-center gap-2">
-                                    {{-- Botão Editar --}}
-                                    <a href="{{ route('produtos.edit', $produto->id) }}">
-                                        <x-buttons.edit-button>Editar</x-buttons.edit-button>
-                                    </a>
-
-                                    {{-- Botão Excluir com modal --}}
-                                    <x-buttons.delete-button 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#modal-delete-{{ $produto->id }}">
-                                        Excluir
-                                    </x-buttons.delete-button>
-
-                                    {{-- Modal de confirmação --}}
-                                    <x-modals.confirm-delete 
-                                        id="modal-delete-{{ $produto->id }}"
-                                        route="{{ route('produtos.destroy', $produto->id) }}"
-                                        item="o produto {{ $produto->nome }}"
+                {{-- TABELA responsiva para md+ --}}
+                <div class="d-none d-md-block">
+                    <x-tables.table :headers="['Nome', 'Descrição', 'Quantidade', 'Volume/Peso', 'Preço', 'Total', 'Fornecedor', 'Ações']">
+                        @forelse($produtos as $produto)
+                            <tr>
+                                <td>{{ $produto->nome }}</td>
+                                <td><span class="small">{{ $produto->descricao }}</span></td>
+                                <td>{{ $produto->quantidade }}</td>
+                                <td><span class="small">{{ $produto->volume }}</span></td>
+                                <td>R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
+                                <td>R$ {{ number_format($produto->quantidade * $produto->preco, 2, ',', '.') }}</td>
+                                <td><span class="small">{{ $produto->fornecedor->nome ?? '—' }}</span></td>
+                                <td class="text-center">
+                                    <x-tables.actions 
+                                        :editRoute="route('produtos.edit', $produto)"
+                                        :deleteRoute="route('produtos.destroy', $produto)"
+                                        :modalId="'modal-delete-' . $produto->id"
+                                        :itemName="'o produto ' . $produto->nome"
                                     />
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <x-tables.table-empty colspan="8" message="Nenhum produto cadastrado." />
-                    @endforelse
-                </x-tables.table>
+                                </td>
+                            </tr>
+                        @empty
+                            <x-tables.table-empty colspan="8" message="Nenhum produto cadastrado." />
+                        @endforelse
+                    </x-tables.table>
+                </div>
+
+                {{-- CARDS responsivos para sm --}}
+                <div class="d-block d-md-none">
+                    <x-tables.card-view 
+                        :items="$produtos"
+                        :fields="[
+                            'Nome' => 'nome',
+                            'Descrição' => 'descricao',
+                            'Quantidade' => 'quantidade',
+                            'Volume/Peso' => 'volume',
+                            'Preço' => fn($p) => 'R$ ' . number_format($p->preco, 2, ',', '.'),
+                            'Total' => fn($p) => 'R$ ' . number_format($p->quantidade * $p->preco, 2, ',', '.'),
+                            'Fornecedor' => fn($p) => $p->fornecedor->nome ?? '—',
+                        ]"
+                        :actions="fn($p) => view('components.tables.actions', [
+                            'editRoute' => route('produtos.edit', $p),
+                            'deleteRoute' => route('produtos.destroy', $p),
+                            'modalId' => 'modal-delete-' . $p->id,
+                            'itemName' => 'o produto ' . $p->nome,
+                        ])->render()"
+                    />
+                </div>
 
                 {{-- Paginação --}}
-                {{ $produtos->links('components.buttons.pagination-button') }}
+                <div class="mt-3">
+                    {{ $produtos->links('components.buttons.pagination-button') }}
+                </div>
             </x-cards.card-t-privado>
+
+            {{-- Modais de confirmação --}}
+            @foreach ($produtos as $produto)
+                <x-modals.confirm-delete 
+                    :id="'modal-delete-' . $produto->id"
+                    :route="route('produtos.destroy', $produto)"
+                    :item="'o produto ' . $produto->nome"
+                />
+            @endforeach
+
         </div>
     </div>
 </x-app-layout>

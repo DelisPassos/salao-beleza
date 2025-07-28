@@ -71,7 +71,7 @@
                                 <label for="fornecedor_id" class="form-label text-white fw-semibold">
                                     <i class="bi bi-truck me-1"></i> Fornecedor
                                 </label>
-                                <select name="fornecedor_id" id="fornecedor_id" class="form-select bg-black text-white border-warning" required>
+                                <select name="fornecedor_id" id="fornecedor_id" class="form-select bg-black text-white border-white" required>
                                     <option value="">Selecione um fornecedor</option>
                                     @foreach($fornecedores as $fornecedor)
                                         <option value="{{ $fornecedor->id }}"

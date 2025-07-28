@@ -11,52 +11,69 @@
                 @endif
 
                 {{-- Botão de criação --}}
-                <div class="mb-3">
-                    <x-buttons.create-button
-                        href="{{ route('fornecedores.create') }}"
-                        icon="person-plus"
-                        label="Novo Fornecedor"
+                <x-buttons.create-button
+                    href="{{ route('fornecedores.create') }}"
+                    icon="person-plus"
+                    label="Novo Fornecedor"
+                />
+
+                {{-- TABELA responsiva para md+ --}}
+                <div class="d-none d-md-block">
+                    <x-tables.table :headers="['Nome', 'CNPJ', 'Telefone', 'E-mail', 'Ações']">
+                        @forelse($fornecedores as $fornecedor)
+                            <tr>
+                                <td>{{ $fornecedor->nome }}</td>
+                                <td><span class="small">{{ $fornecedor->cnpj }}</span></td>
+                                <td><span class="small">{{ $fornecedor->telefone ?: '—' }}</span></td>
+                                <td><span class="small">{{ $fornecedor->email ?: '—' }}</span></td>
+                                <td class="text-center">
+                                    <x-tables.actions 
+                                        :editRoute="route('fornecedores.edit', $fornecedor)"
+                                        :deleteRoute="route('fornecedores.destroy', $fornecedor)"
+                                        :modalId="'modal-delete-' . $fornecedor->id"
+                                        :itemName="'o fornecedor ' . $fornecedor->nome"
+                                    />
+                                </td>
+                            </tr>
+                        @empty
+                            <x-tables.table-empty colspan="5" message="Nenhum fornecedor cadastrado." />
+                        @endforelse
+                    </x-tables.table>
+                </div>
+
+                {{-- CARDS responsivos para sm --}}
+                <div class="d-block d-md-none">
+                    <x-tables.card-view 
+                        :items="$fornecedores"
+                        :fields="[
+                            'Nome' => 'nome',
+                            'CNPJ' => 'cnpj',
+                            'Telefone' => fn($f) => $f->telefone ?: '—',
+                            'E-mail' => fn($f) => $f->email ?: '—',
+                        ]"
+                        :actions="fn($f) => view('components.tables.actions', [
+                            'editRoute' => route('fornecedores.edit', $f),
+                            'deleteRoute' => route('fornecedores.destroy', $f),
+                            'modalId' => 'modal-delete-' . $f->id,
+                            'itemName' => 'o fornecedor ' . $f->nome,
+                        ])->render()"
                     />
                 </div>
 
-                {{-- Tabela --}}
-                <x-tables.table :headers="['Nome', 'CNPJ', 'Telefone', 'E-mail', 'Ações']">
-                    @forelse($fornecedores as $fornecedor)
-                        <tr>
-                            <td>{{ $fornecedor->nome }}</td>
-                            <td>{{ $fornecedor->cnpj }}</td>
-                            <td>{{ $fornecedor->telefone ?: '—' }}</td>
-                            <td>{{ $fornecedor->email ?: '—' }}</td>
-                            <td class="text-center">
-                                <div class="d-flex flex-wrap justify-content-center gap-2">
-                                    {{-- Botão Editar --}}
-                                    <a href="{{ route('fornecedores.edit', $fornecedor) }}">
-                                        <x-buttons.edit-button>Editar</x-buttons.edit-button>
-                                    </a>
-
-                                    {{-- Botão Excluir --}}
-                                    <x-buttons.delete-button
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modal-delete-{{ $fornecedor->id }}">
-                                        Excluir
-                                    </x-buttons.delete-button>
-                                </div>
-
-                                {{-- Modal de Confirmação --}}
-                                <x-modals.confirm-delete
-                                    id="modal-delete-{{ $fornecedor->id }}"
-                                    route="{{ route('fornecedores.destroy', $fornecedor) }}"
-                                    item="o fornecedor {{ $fornecedor->nome }}"
-                                />
-                            </td>
-                        </tr>
-                    @empty
-                        <x-tables.table-empty colspan="5" message="Nenhum fornecedor cadastrado." />
-                    @endforelse
-                </x-tables.table>
                 {{-- Paginação --}}
-                {{ $fornecedores->links('components.buttons.pagination-button') }}
+                <div class="mt-3">
+                    {{ $fornecedores->links('components.buttons.pagination-button') }}
+                </div>
             </x-cards.card-t-privado>
+
+            {{-- Modais de confirmação --}}
+            @foreach ($fornecedores as $fornecedor)
+                <x-modals.confirm-delete 
+                    :id="'modal-delete-' . $fornecedor->id"
+                    :route="route('fornecedores.destroy', $fornecedor)"
+                    :item="'o fornecedor ' . $fornecedor->nome"
+                />
+            @endforeach
         </div>
     </div>
 </x-app-layout>
