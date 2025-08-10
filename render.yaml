@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: salao-beleza
+    runtime: docker
+    plan: free
+    branch: main
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ENV
+        value: production
+
+      - key: APP_DEBUG
+        value: false
+
+      - key: APP_URL
+        value: https://salao-beleza.onrender.com
+
+      - key: DB_CONNECTION
+        value: pgsql
+
+      - key: DB_HOST
+        value: dpg-d2ca1hogjchc73fu1ce0-a.oregon-postgres.render.com
+
+      - key: DB_PORT
+        value: 5432
+
+      - key: DB_DATABASE
+        value: bella_pg
+
+      - key: DB_USERNAME
+        value: bella_pg_user
+
+      - key: DB_PASSWORD
+        value: 8gsRHrOIrH7LFHRT7xUZaJ0zITqXLf2m
+
+      # Coloque manualmente no painel depois:
+      # - key: APP_KEY
+      #   value: gerar com `php artisan key:generate --show`
