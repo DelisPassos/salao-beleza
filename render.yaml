@@ -33,6 +33,11 @@ services:
       - key: DB_PASSWORD
         value: 8gsRHrOIrH7LFHRT7xUZaJ0zITqXLf2m
 
-      # Coloque manualmente no painel depois:
-      # - key: APP_KEY
-      #   value: gerar com `php artisan key:generate --show`
+      - key: APP_KEY
+        value: base64:DKW1EW6uo3mWjvH9nftGSQe1zSbrtU88ejblC1haRP0=
+
+      - key: SESSION_DRIVER
+        value: cookie
+
+      - key: SESSION_SECURE_COOKIE
+        value: true
