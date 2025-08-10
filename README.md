@@ -8,18 +8,41 @@
   Projeto desenvolvido com Laravel para controle interno de atendimentos, clientes, serviços e fornecedores em salões de beleza.
 </p>
 
+<p align="center">
+  🔗 <strong><a href="https://salao-beleza.onrender.com" target="_blank">Acesse o sistema em produção</a></strong>
+</p>
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-- PHP 8.1+
+- PHP 8.2 (via Docker)
 - Laravel 10+
-- MySQL (via XAMPP)
+- PostgreSQL (via Render)
 - Blade Components personalizados
 - Bootstrap 5.3 (via Vite e npm)
 - Bootstrap Icons
 - HTML/CSS/JS
-- Mailpit (para simulação de envio de e-mails em ambiente local)
+- Mailpit (para simulação de e-mails em ambiente local)
+
+---
+
+## 🌐 Ambiente de Produção
+
+Este projeto foi configurado para ser executado em ambiente de produção com as seguintes tecnologias e serviços:
+
+- **Render.com**: Hospedagem da aplicação Laravel com Docker.
+- **PostgreSQL (Render)**: Banco de dados usado em produção.
+- **Docker**: Containerização completa do ambiente PHP, Node.js, e dependências.
+
+### 🔧 Alterações realizadas para o deploy
+
+- `Dockerfile` criado para execução em containers Linux.
+- `render.yaml` configurado para automatizar o deploy via GitHub.
+- `.env` adaptado para uso com PostgreSQL em produção.
+- Comando de migração adicionado ao processo de build (`php artisan migrate --force`).
+- `APP_URL` e `SESSION_DRIVER` configurados corretamente para HTTPS.
+- Segurança ajustada com `APP_DEBUG=false` e `APP_ENV=production`.
 
 ---
 
@@ -33,7 +56,7 @@
 
 ---
 
-## 🚀 Como Instalar e Executar
+## 🚀 Como Instalar e Executar Localmente
 
 ```bash
 # 1. Clonar o repositório
@@ -47,11 +70,10 @@ composer install
 npm install
 
 # 4. Compilar os assets com Vite
-# Para produção
-npm run build      # Ou npm run dev  Para desenvolvimento
+npm run build      # ou npm run dev para desenvolvimento
 
 # 5. Copiar o arquivo de ambiente
-copy .env.example .env
+cp .env.example .env
 
 # 6. Gerar chave da aplicação
 php artisan key:generate
@@ -66,51 +88,3 @@ php artisan db:seed
 
 # 9. Iniciar o servidor local
 php artisan serve
-```
-
----
-
-## 🔐 Recuperação de Senha com Mailpit
-
-### 1. Instalar e rodar o Mailpit
-
-- Baixe: [https://github.com/axllent/mailpit/releases](https://github.com/axllent/mailpit/releases)
-- Use o arquivo apropriado para seu sistema (ex: `mailpit-windows-amd64.exe`)
-- Execute:
-  ```bash
-  ./mailpit-windows-amd64.exe
-  ```
-- A interface estará disponível em [http://localhost:8025](http://localhost:8025)
-
-### 2. Configurar `.env`
-
-```env
-MAIL_MAILER=smtp
-MAIL_HOST=127.0.0.1
-MAIL_PORT=1025
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
-MAIL_FROM_ADDRESS="nao-responda@example.com"
-MAIL_FROM_NAME="La Bella"
-```
-
-### 3. Testar
-
-- Acesse: `http://localhost:8000/forgot-password`
-- Informe um e-mail válido cadastrado
-- Abra o Mailpit e clique no link recebido para redefinir a senha
-
----
-
-## 📌 Observações
-
-- O sistema possui um layout escuro (preto, branco e dourado), com componentes Blade personalizados e responsivos.
-- A navegação pública e privada seguem padrões distintos para melhor usabilidade.
-- Para ambiente de produção, configure um serviço SMTP real (ex: SendGrid, Mailtrap, Mailgun).
-
----
-
-## 📄 Licença
-
-Este projeto é open-source e está sob a licença [MIT](LICENSE).
